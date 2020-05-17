@@ -15,9 +15,9 @@ var pokeListSchema = new mongoose.Schema({
     threeStars: Boolean
 });
 
-
-var pokeDistance = mongoose.model('pokeCandy', pokeDistanceSchema); 
 var pokeList = mongoose.model('pokeList', pokeListSchema); 
+var pokeDistance = mongoose.model('pokeDistance', pokeDistanceSchema); 
+
 
 async function getCandyDistanceList()
 {
@@ -27,7 +27,7 @@ async function getCandyDistanceList()
         const $ = cheerio.load(body);
         const speciesWrap = $('.speciesWrap');
         let pokeArray = [];
-        let pokeList = []; 
+        let pokeListArray = []; 
 
         speciesWrap.each((index, element) =>
         {
@@ -48,12 +48,12 @@ async function getCandyDistanceList()
             });
 
             pokeArray.push(pokeObj);
-            pokeList.push(pokeHolding); 
+            pokeListArray.push(pokeHolding); 
 
         });
         return {
             pokeArray,
-            pokeList
+            pokeListArray
         }
     });
 
@@ -66,11 +66,11 @@ function kmToMiles(km){
 db.on('error', console.error.bind(console, 'connection error'));
 db.once('open', async()=>{ 
     const candyList = await getCandyDistanceList();
-    if(candyList > 0){
+    if(candyList.pokeArray.length > 0){
         await pokeDistance.deleteMany({}).exec(); 
-        await  pokeDistance.create(candyList.pokeArray).exec();
         await pokeList.deleteMany({}).exec(); 
-        await pokeList.create(candyList.pokeList).exec(); 
+        await pokeList.create(candyList.pokeListArray).exec(); 
+        await pokeDistance.create(candyList.pokeArray).exec();
     }
-    db.close(); 
+ 
 });
