@@ -64,19 +64,13 @@ function kmToMiles(km){
 }
 
 db.on('error', console.error.bind(console, 'connection error'));
-db.once('open', ()=>{ 
-    getCandyDistanceList().then(list => {
-        if(list.length > 0){
-            pokeDistance.deleteMany({}, ()=>{
-                pokeDistance.create(list.pokeArray, (err)=>{
-                    if(err) return console.err(err);
-                }); 
-            });
-            pokeList.deleteMany({}, ()=>{
-                pokeList.create(list.pokeList, (err)=>{
-                    if(err) return console.err(err);                    
-                });
-            });          
-        }      
-    });
-}); 
+db.once('open', async()=>{ 
+    const candyList = await getCandyDistanceList();
+    if(candyList > 0){
+        await pokeDistance.deleteMany({}).exec(); 
+        await  pokeDistance.create(candyList.pokeArray).exec();
+        await pokeList.deleteMany({}).exec(); 
+        await pokeList.create(candyList.pokeList).exec(); 
+    }
+    db.close(); 
+});
