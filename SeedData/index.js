@@ -1,6 +1,8 @@
-import setPokemonCandyDistance from './setPokemonCandyDistance';
-import setPokemonHoldingList from './setPokemonHolding';
-import jsonSettings from '../settings.json'; 
+var setPokemonHoldingList = require('./setPokemonHolding').setPokemonHoldingList;
+var setPokemonCandyDistance = require('./setPokemonCandyDistance').setPokemonCandyDistance;
+
+
+var jsonSettings = require('../settings.json'); 
 const mongoose = require('mongoose'); 
 mongoose.connect(jsonSettings.connectionString,
  {useNewUrlParser: true, useUnifiedTopology: true}); 
@@ -10,7 +12,7 @@ var argv = require('yargs')
     .usage('')
     .alias('sd', 'setDistances')
     .describe('sd', 'Replaces or adds all pokemon to db')
-    .aliast('sh', 'setHoldings')
+    .alias('sh', 'setHoldings')
     .describe('sh', 'Replaces or adds default holding pokemon to db')
     .help('h')
     .alias('h', 'help')

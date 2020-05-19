@@ -15,6 +15,6 @@ var pokeList = mongoose.model('pokeList', pokeListSchema);
 var pokeDistance = mongoose.model('pokeDistance', pokeDistanceSchema); 
 
 module.exports = {
-    pokeList: pokeList.pokeList, 
-    pokeDistance: pokeDistance.pokeDistance
+    pokeList: pokeList, 
+    pokeDistance: pokeDistance
 }

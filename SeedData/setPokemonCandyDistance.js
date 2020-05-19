@@ -1,8 +1,8 @@
-import {pokeDistance} from '../Models/';  
-import constants from '../constants.json'; 
-import kmToMiles from '../Services/kmToMiles'; 
+var pokeDistance = require('../Models/').pokeDistance;  
+var constants = require('../constants.json'); 
+var kmToMiles = require('../Services/kmToMiles').kmToMiles; 
 const fetch = require('node-fetch'); 
-const cheerio = require('cheerio'); 
+const cheerio = require('cheerio');  
 
 async function getPokemonCandyDistance(){
     return fetch(constants.candyDistancesUrl).then(res => res.text())
@@ -30,7 +30,7 @@ async function getPokemonCandyDistance(){
 }
 
 async function setPokemonCandyDistance(db){
-        db.on('error', console.error.bind(console, 'connection error'));
+        //db.on('error', console.error.bind(console, 'connection error'));
         db.once('open', async()=>{
         const pokeCandyDistanceArray = await getPokemonCandyDistance(); 
             if(pokeCandyDistanceArray.length > 0){
@@ -40,9 +40,9 @@ async function setPokemonCandyDistance(db){
             }
             db.close(); 
         });
-}
+    }
 
 module.exports = {
-    getPokemonCandyDistance: getPokemonCandyDistance.getPokemonCandyDistance,
-    setPokemonCandyDistance: setPokemonCandyDistance.setPokemonCandyDistance
+    getPokemonCandyDistance: getPokemonCandyDistance,
+    setPokemonCandyDistance: setPokemonCandyDistance
 }

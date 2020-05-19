@@ -1,5 +1,5 @@
-import {pokeList} from '../Models'; 
-import getPokemonCandyDistance from './setPokemonCandyDistance';
+var pokeList = require('../Models').pokeList; 
+var getPokemonCandyDistance = require('./setPokemonCandyDistance').getPokemonCandyDistance;
 
 async function getPokemonHoldingList(){
     const pokeCandyDistanceArray = await getPokemonCandyDistance(); 
@@ -28,5 +28,6 @@ async function setPokemonHoldingList(db){
 }
 
 module.exports = {
-    setPokemonHoldingList: setPokemonHoldingList.setPokemonHoldingList
+    getPokemonHoldingList: getPokemonHoldingList,
+    setPokemonHoldingList: setPokemonHoldingList
 }
