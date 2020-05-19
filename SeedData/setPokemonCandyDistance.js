@@ -1,6 +1,6 @@
-var pokeDistance = require('../Models/').pokeDistance;  
-var constants = require('../constants.json'); 
-var kmToMiles = require('../Services/kmToMiles').kmToMiles; 
+const pokeDistance = require('../Models/').pokeDistance;  
+const constants = require('../constants.json'); 
+const kmToMiles = require('../Services/kmToMiles').kmToMiles; 
 const fetch = require('node-fetch'); 
 const cheerio = require('cheerio');  
 

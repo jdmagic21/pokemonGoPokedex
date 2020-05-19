@@ -20,5 +20,5 @@ var argv = require('yargs')
 
 if(argv.setDistances)
     setPokemonCandyDistance(db); 
-if(argv.setHoldings)
+else if(argv.setHoldings)
     setPokemonHoldingList(db); 
