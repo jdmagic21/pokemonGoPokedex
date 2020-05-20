@@ -1,20 +1,20 @@
 var mongoose = require('mongoose'); 
 
-var pokeDistanceSchema = new mongoose.Schema({
+var pokeDexSchema = new mongoose.Schema({
+    idNumber: Number,
     name: String, 
-    km: Number, 
-    miles: Number
-});
-var pokeListSchema = new mongoose.Schema({
-    name: String, 
-    candyCount: Number, 
-    threeStars: Boolean
-});
+    kms: Number, 
+    miles: mongoose.Types.Decimal128,
+    evolutionCost: Number,
+    evolvesInto: String,
+    threeStars: Boolean,
+    needed: Boolean,
+    candyCount: Number
+}, {collection: 'pokeDex'});
 
-var pokeList = mongoose.model('pokeList', pokeListSchema); 
-var pokeDistance = mongoose.model('pokeDistance', pokeDistanceSchema); 
+
+var pokeDex = mongoose.model('pokeDex', pokeDexSchema); 
 
 module.exports = {
-    pokeList: pokeList, 
-    pokeDistance: pokeDistance
+    pokeDex: pokeDex
 }

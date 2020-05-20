@@ -1,4 +1,4 @@
-const pokeDistance = require('../Models/').pokeDistance;  
+const pokeDex = require('../Models/').pokeDex;  
 const constants = require('../constants.json'); 
 const kmToMiles = require('../Services/kmToMiles').kmToMiles; 
 const fetch = require('node-fetch'); 
@@ -6,40 +6,58 @@ const cheerio = require('cheerio');
 
 async function getPokemonCandyDistance(){
     return fetch(constants.candyDistancesUrl).then(res => res.text())
-    .then(body => {      
+    .then(async(body) => {      
         const $ = cheerio.load(body);
         const speciesWrap = $('.speciesWrap');
         let pokeArray = [];
 
-        speciesWrap.each((index, element) =>
-        {            
-            const pTags = $(element).find('p');
+        for(var a = 0; a < speciesWrap.length; a++){
+            const pTags = $(speciesWrap[a]).find('p');
+            const idNumber = parseInt(pTags.eq(0).text().trim().replace("#", "")); 
             const km = parseInt(pTags.eq(1).text().trim().replace("km", ""));
             const miles = parseInt(kmToMiles(km).toFixed(2));
-            const pokeName = pTags.eq(2).text().trim();          
-            const pokeObj = new pokeDistance({
-                name: pokeName,
-                km: km,
-                miles: miles
-            });
+            const pokeName = pTags.eq(2).text().trim();   
+           let poke = await pokeDex.findOne({"name": pokeName}).exec(); 
+            if(poke == null){
+                const pokeObj = new pokeDex({
+                    idNumber: idNumber,
+                    name: pokeName,
+                    kms: km,
+                    miles: miles,
+                    threeStars: false, 
+                    candyCount: 0,
+                    needed: false
+                });
+    
+                pokeArray.push(pokeObj); 
+            }      
 
-            pokeArray.push(pokeObj); 
-        }); 
+
+        }
+
         return pokeArray; 
     });
 }
 
 async function setPokemonCandyDistance(db){
-        //db.on('error', console.error.bind(console, 'connection error'));
+    return new Promise((resolve,reject)=>{
+        db.on('error', console.error.bind(console, 'connection error'));
         db.once('open', async()=>{
+          
         const pokeCandyDistanceArray = await getPokemonCandyDistance(); 
             if(pokeCandyDistanceArray.length > 0){
-                await pokeDistance.deleteMany({}).exec(); 
-                await pokeDistance.create(pokeCandyDistanceArray);
-                db.close(); 
+                await pokeDex.create(pokeCandyDistanceArray);
+                console.log('pokemon created');
+                db.close();
+                resolve(); 
             }
-            db.close(); 
+            else{
+                console.log('no pokemon to create');
+                db.close();
+                resolve(); 
+            }
         });
+    }); 
     }
 
 module.exports = {
