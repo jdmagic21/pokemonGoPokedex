@@ -9,7 +9,8 @@ var pokeDexSchema = new mongoose.Schema({
     evolvesInto: String,
     threeStars: Boolean,
     needed: Boolean,
-    candyCount: Number
+    candyCount: Number,
+    candyRemaining: Number
 }, {collection: 'pokeDex'});
 
 

@@ -57,8 +57,10 @@ app.post('/pokemon/update', async (req, res) =>
     {
         poke.candyCount = req.body.candyCount || poke.candyCount;
         poke.threeStars = req.body.threeStars || poke.threeStars;
+        poke.needed = req.body.needed || poke.needed; 
+        poke.candyRemaining = poke.evolutionCost - poke.candyCount; 
         await poke.save();
-        res.send(`Pokemon ${poke.name} has been updated`);
+        res.json(poke);
     }
     else
     {

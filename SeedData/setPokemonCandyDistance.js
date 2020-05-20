@@ -28,14 +28,16 @@ async function getPokemonCandyDistance(){
                     threeStars: false, 
                     candyCount: 0,
                     needed: false
-                });
+                });         
     
                 pokeArray.push(pokeObj); 
-            }      
-
-
+            }    
+            else{
+                poke.kms = km;
+                poke.miles = miles;
+                await poke.save(); 
+            }  
         }
-
         return pokeArray; 
     });
 }
