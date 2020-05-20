@@ -4,7 +4,7 @@ var pokeDexSchema = new mongoose.Schema({
     idNumber: Number,
     name: String, 
     kms: Number, 
-    miles: mongoose.Types.Decimal128,
+    miles: Number,
     evolutionCost: Number,
     evolvesInto: String,
     threeStars: Boolean,

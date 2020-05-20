@@ -15,9 +15,10 @@ async function getPokemonCandyDistance(){
             const pTags = $(speciesWrap[a]).find('p');
             const idNumber = parseInt(pTags.eq(0).text().trim().replace("#", "")); 
             const km = parseInt(pTags.eq(1).text().trim().replace("km", ""));
-            const miles = parseInt(kmToMiles(km).toFixed(2));
+            const miles = kmToMiles(km).toFixed(2);
             const pokeName = pTags.eq(2).text().trim();   
-           let poke = await pokeDex.findOne({"name": pokeName}).exec(); 
+            let poke = await pokeDex.findOne({"name": pokeName}).exec(); 
+            
             if(poke == null){
                 const pokeObj = new pokeDex({
                     idNumber: idNumber,
