@@ -11,6 +11,7 @@ const app = express();
 app.use(cors());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
 const port = 3001;
 
 app.get('/pokemon', async (req, res) =>
@@ -62,9 +63,11 @@ app.post('/pokemon/reset/:id', async (req, res) =>
     }
 });
 
-app.post('/pokemon/update', async (req, res) =>
+app.post('/pokemon/update', async(req, res) =>
 {
-    let poke = await pokeDex.findById(req.body.id).exec();
+    console.log(req.body);
+    var poke = await pokeDex.findOne({idNumber: req.body.id});
+
     if (poke != null)
     {
         poke.candyCount = req.body.candyCount || poke.candyCount;
@@ -84,7 +87,7 @@ app.post('/pokemon/update', async (req, res) =>
                 poke.milesRemaining = (poke.evolutionCost * poke.miles).toFixed(2); 
             }     
         }        
-           
+        
         await poke.save();
         res.json(poke);
     }
