@@ -30,16 +30,8 @@ class App extends React.Component{
   
   render(){
     return (
-      <Router>
-        <div>
-      <nav>
-        <ul>
-          <li><Link to="/">Home</Link></li>
-          <li> <Link to="/about">About</Link></li>
-        </ul>
-      </nav>     
-        
-           
+      <Router>         
+      
       <Switch>
         
         <Route path="/pokemon/edit/:id">
@@ -49,7 +41,7 @@ class App extends React.Component{
            <PokemonTable data={this.state.pokemon} />
         </Route>
         </Switch>
-        </div>
+        
       </Router>
     
     );

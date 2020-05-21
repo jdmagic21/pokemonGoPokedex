@@ -51,10 +51,12 @@ class Pokemon extends React.Component {
     }
 
     render() {
+        const pokemonImgUrl = "https://db.pokemongohub.net/images/official/full/" + this.state.pokemon.idNumber + ".png"; 
+
         return (
             <div>
                 <h1>Update Pokemon {this.state.pokemon.name}</h1>
-
+                <img src={pokemonImgUrl} width="200px;"/>
                 <form onSubmit={this.handleSubmit}>
                     <div className="form-group">
                         <label htmlFor="candyCount">Candy Holding Count: </label>
