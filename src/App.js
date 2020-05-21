@@ -1,6 +1,15 @@
 import React from 'react';
 import './App.css';
 import PokemonTable from './components/PokemonTable'; 
+import Pokemon from './components/Pokemon'; 
+
+import { 
+  BrowserRouter as Router,
+  Switch,
+  Route,
+  Link,
+  useParams
+} from 'react-router-dom'; 
 
 
 class App extends React.Component{
@@ -21,10 +30,30 @@ class App extends React.Component{
   
   render(){
     return (
-      <PokemonTable data={this.state.pokemon} />
+      <Router>
+        <div>
+      <nav>
+        <ul>
+          <li><Link to="/">Home</Link></li>
+          <li> <Link to="/about">About</Link></li>
+        </ul>
+      </nav>     
+        
+           
+      <Switch>
+        
+        <Route path="/pokemon/edit/:id">
+            <Pokemon /> 
+          </Route>
+          <Route path ="/">
+           <PokemonTable data={this.state.pokemon} />
+        </Route>
+        </Switch>
+        </div>
+      </Router>
+    
     );
-  }
-  
+  }  
 }
 
 export default App;

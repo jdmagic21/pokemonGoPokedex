@@ -11,7 +11,7 @@ const app = express();
 app.use(cors());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
-const port = 3000;
+const port = 3001;
 
 app.get('/pokemon', async (req, res) =>
 {
@@ -41,7 +41,7 @@ app.get('/pokemon', async (req, res) =>
 
 app.get('/pokemon/:id', async (req, res) =>
 {
-    const singlePoke = await pokeDex.findById(req.params.id).exec();
+    const singlePoke = await pokeDex.find({idNumber: req.params.id}).exec();
     res.json(singlePoke);
 });
 

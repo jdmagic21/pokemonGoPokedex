@@ -22,11 +22,11 @@ export default class PokemonTable extends React.Component {
                 "defaultContent": "-",
                 "targets": "_all"
               }],
-              ajax: {url:'http://localhost:3000/pokemon', dataSrc: "" },
+              ajax: {url:'http://localhost:3001/pokemon', dataSrc: "" },
               columns:[
                   {data: 'idNumber', title: "ID Number"},                  
                   {data: 'name', title: "Name", render: (data, type, full, meta)=>{
-                      return "<a href=www.google.com>"+data+"</a>"
+                      return "<a href=/pokemon/edit/"+full.idNumber+">"+data+"</a>"
                   }},
                   {data: 'kms', title: "KM/Candy"},
                   {data: 'miles', title: "Miles/Candy"},
@@ -42,8 +42,8 @@ export default class PokemonTable extends React.Component {
       )
       console.log(this.props.data); 
     }
-    componentWillUnmount() {
-        
+    componentWillUnmount() { 
+        this.$el.DataTable().destroy();
     }   
     
     render() {       
