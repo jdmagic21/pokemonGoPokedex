@@ -28,15 +28,16 @@ export default class PokemonTable extends React.Component {
                   {data: 'name', title: "Name", render: (data, type, full, meta)=>{
                       return "<a href=/pokemon/edit/"+full.idNumber+">"+data+"</a>"
                   }},
-                  {data: 'kms', title: "KM/Candy"},
-                  {data: 'miles', title: "Miles/Candy"},
+                  {data: 'milesRemaining', title: "Miles Remaining"},
+                  //{data: 'kms', title: "KM/Candy"},
+                  //{data: 'miles', title: "Miles/Candy"},
                   {data: 'threeStars', title: "Three Stars"},
                   {data: 'needed', title: "Needed"},
                   {data: 'evolutionCost', title: "Evolution Cost"},
                   {data: 'evolvesInto', title: "Evolves Into"},
-                  {data: 'candyRemaining', title: "Candy Remaining"},
-                  {data: 'kmsRemaining', title: "KM Remaining"},
-                  {data: 'milesRemaining', title: "Miles Remaining"},
+                  {data: 'candyRemaining', title: "Candy Remaining"}
+                  //{data: 'kmsRemaining', title: "KM Remaining"},
+                  
               ]
           }
       )
