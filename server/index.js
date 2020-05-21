@@ -65,7 +65,6 @@ app.post('/pokemon/reset/:id', async (req, res) =>
 
 app.post('/pokemon/update', async(req, res) =>
 {
-    console.log(req.body);
     var poke = await pokeDex.findOne({idNumber: req.body.id});
 
     if (poke != null)

@@ -43,7 +43,7 @@ class Pokemon extends React.Component {
                 needed: this.state.pokemon.needed
             },
             success: (data)=>{
-                console.log('success'); 
+               window.location.reload(false);
             }
 
         }); 
@@ -64,7 +64,7 @@ class Pokemon extends React.Component {
 
                     <div className="form-group">
                         <div className="form-check">
-                        <input type="checkbox" htmlFor="threeStars" className="form-check-input" id="threeStars" name="threeStars" defaultChecked={this.state.pokemon.threeStars || false}
+                        <input type="checkbox" htmlFor="threeStars" className="form-check-input" id="threeStars" name="threeStars" defaultChecked={this.state.pokemon.threeStars}
                         onChange={this.handleChange}
                         value="false"/>
                             <label htmlFor="threeStars" className="form-check-label">Three Stars </label>
@@ -73,7 +73,7 @@ class Pokemon extends React.Component {
                     </div>
                     <div className="form-group">
                     <div className="form-check">
-                    <input type="checkbox" className="form-check-input" id="needed" name="needed" defaultChecked={this.state.pokemon.needed || false}
+                    <input type="checkbox" className="form-check-input" id="needed" name="needed" defaultChecked={this.state.pokemon.needed}
                     onChange={this.handleChange}
                     />
                         <label htmlFor="needed">Needed</label>
