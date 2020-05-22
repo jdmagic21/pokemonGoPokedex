@@ -24,6 +24,13 @@ app.get('/pokemon', async (req, res) =>
         const all = await pokeDex.find({}, filter).sort({ name: 1 }).exec();
         res.json(all);
     }
+
+    else if(req.query.sort === "milesRemaining"){
+        const milesRemaining = await pokeDex.aggregate([{ $match: {"milesRemaining": {$exists:true}}}, {$sort: {milesRemaining: 1}}]).exec(); 
+        const nonMilesRemaining = await pokeDex.aggregate([{ $match: {"milesRemaining": {$exists:false}}}, {$sort: {name: 1}}]).exec();
+        res.json([...milesRemaining, ...nonMilesRemaining]);
+    }
+
     else{
         var sort = {};       
         if(req.query.order === "desc"){
@@ -31,10 +38,13 @@ app.get('/pokemon', async (req, res) =>
         }
         else if(req.query.order === "asc"){
             sort[req.query.sort] = 1;
+        }
+        else{
+            sort[req.query.sort] = 1;
         }       
 
         const sortall = await pokeDex.find({}, filter).sort(sort).exec(); 
-        res.json(sortall);
+        res.json(sortall);       
     }   
 });
 
@@ -76,7 +86,7 @@ app.post('/pokemon/update', async(req, res) =>
         if(candyRemaining > 0){
             poke.candyRemaining = candyRemaining; 
             poke.kmsRemaining = candyRemaining * poke.kms; 
-            poke.milesRemaining = candyRemaining * poke.miles;
+            poke.milesRemaining = (candyRemaining * poke.miles).toFixed(2);
         }
         else
         {
