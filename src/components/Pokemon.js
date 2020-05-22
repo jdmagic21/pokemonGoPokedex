@@ -1,6 +1,5 @@
 import React from 'react';
 import { withRouter } from "react-router-dom";
-import { json } from 'body-parser';
 var $ = require('jquery');
 
 class Pokemon extends React.Component {
@@ -20,13 +19,15 @@ class Pokemon extends React.Component {
     }
     handleChange(event){
         var value = event.target.value; 
-            if(event.target.type == "checkbox"){
+            if(event.target.type === "checkbox"){
                 event.target.checked === true ? value = true :value = false; 
             }                   
 
-        this.state.pokemon[event.target.name] = value; 
+        let currentPokemon = this.state.pokemon; 
+        currentPokemon[event.target.name] = value; 
+
         this.setState({
-            pokemon: this.state.pokemon
+            pokemon: currentPokemon
         });
 
     }
@@ -56,7 +57,7 @@ class Pokemon extends React.Component {
         return (
             <div>
                 <h1>Update Pokemon {this.state.pokemon.name}</h1>
-                <img src={pokemonImgUrl} width="200px;"/>
+                <img src={pokemonImgUrl} width="200px;" alt={this.state.pokemon.name}/>
                 <form onSubmit={this.handleSubmit}>
                     <div className="form-group">
                         <label htmlFor="candyCount">Candy Holding Count: </label>
