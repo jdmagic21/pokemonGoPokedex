@@ -9,26 +9,32 @@ $.DataTable = require('datatables.net-responsive');
 export default class PokemonTable extends React.Component {
     componentDidMount() {
       this.$el = $(this.el);
-      
+      $.extend($.fn.dataTableExt.oStdClasses, {
+        "sFilterInput": "form-control",
+        "sLengthSelect": "form-control"
+    });
+
       this.$el.DataTable(
           {           
               responsive: {
                   details: {
-                    type: "inline",
-                    display: $.fn.dataTable.Responsive.display.childRow
+                    display: $.fn.dataTable.Responsive.display.childRowImmediate,
+            type: ''
                   }
               },
               "columnDefs": [{
                 "defaultContent": "-",
                 "targets": "_all"
               }],
-              ajax: {url:'http://localhost:3001/pokemon', dataSrc: "" },
+              aaSorting: [],
+              pageLength: 50,
+              ajax: {url:'http://localhost:3001/pokemon?sort=milesRemaining', dataSrc: "" },
               columns:[
                   {data: 'idNumber', title: "ID Number"},                  
                   {data: 'name', title: "Name", render: (data, type, full, meta)=>{
                       return "<a href=/pokemon/edit/"+full.idNumber+">"+data+"</a>"
                   }},
-                  {data: 'milesRemaining', title: "Miles Remaining"},
+                  {data: 'milesRemaining', title: "Miles Remaining" },
                   //{data: 'kms', title: "KM/Candy"},
                   //{data: 'miles', title: "Miles/Candy"},
                   {data: 'threeStars', title: "Three Stars"},

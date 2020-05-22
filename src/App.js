@@ -6,9 +6,7 @@ import Pokemon from './components/Pokemon';
 import { 
   BrowserRouter as Router,
   Switch,
-  Route,
-  Link,
-  useParams
+  Route
 } from 'react-router-dom'; 
 
 
@@ -18,32 +16,29 @@ class App extends React.Component{
     this.state = {
       pokemon: []
     }
-  }
-  componentDidMount() {
-      fetch("http://localhost:3000/pokemon", {method: 'GET'}).then(res => res.json())
-        .then(pokemon => {
-            this.setState({
-                pokemon: pokemon
-            }); 
-        });
-  }
+  } 
   
   render(){
     return (
-      <Router>         
+      <main>
+      <div className="Container">
+      <Router>        
       
       <Switch>
         
         <Route path="/pokemon/edit/:id">
+          <div className="row">
             <Pokemon /> 
+            </div>
           </Route>
           <Route path ="/">
-           <PokemonTable data={this.state.pokemon} />
+           <PokemonTable />
         </Route>
         </Switch>
         
       </Router>
-    
+      </div>
+      </main>
     );
   }  
 }
