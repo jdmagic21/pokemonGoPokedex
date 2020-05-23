@@ -29,7 +29,7 @@ export default class PokemonTable extends React.Component {
               }],
               aaSorting: [],
               pageLength: 50,
-              ajax: {url:`http://localhost:${process.env.PORT || constants.expressPort}/pokemon?sort=milesRemaining`, dataSrc: "" },
+              ajax: {url:`/pokemon?sort=milesRemaining`, dataSrc: "" },
               columns:[
                   {data: 'idNumber', title: "ID Number"},                  
                   {data: 'name', title: "Name", render: (data, type, full, meta)=>{
