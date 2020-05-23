@@ -15,7 +15,7 @@ class Pokemon extends React.Component {
     }
     componentDidMount() {
         const id = this.props.match.params.id;
-        fetch(`http://localhost:${constants.expressPort}/pokemon/${id}`).then(res => res.json())
+        fetch(`http://localhost:${process.env.PORT || constants.expressPort}/pokemon/${id}`).then(res => res.json())
             .then(pokemon => this.setState({ pokemon: pokemon[0] }));
 
     }
