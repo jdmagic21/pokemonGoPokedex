@@ -28,7 +28,7 @@
   "main": "server/index.js",
   "proxy": "http://localhost:3000",
   "scripts": {
-    "heroku-postbuild": "cd src && npm install && npm run build",
+    "heroku-postbuild": "npm install && npm run build",
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
