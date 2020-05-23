@@ -4,14 +4,19 @@ const basicAuth = require('express-basic-auth');
 const fs = require('fs'); 
 const path = require('path'); 
 const settingsPath = path.resolve(__dirname, '../settings.json'); 
-var mongoConnectionString= ""; 
+var mongoConnectionString= "", usernameStr, passwordStr; 
 
 //if local use settings file, else if on production use heroku config var
 if(fs.existsSync(settingsPath)){
-    mongoConnectionString = require('../settings.json').connectionString;
+    const settings = require('../settings.json'); 
+    mongoConnectionString = settings.connectionString;
+    usernameStr = settings.username; 
+    passwordStr = settings.passwordStr;
 }
 else{
     mongoConnectionString = process.env.connectionString; 
+    usernameStr = process.env.username;
+    passwordStr = process.env.password; 
 }
 
 mongoose.connect(mongoConnectionString,
@@ -26,8 +31,8 @@ const app = express();
 app.use(basicAuth({authorizer: myAutherizer, challenge: true})); 
 
 function myAutherizer(username, password){
-    const userMatches = basicAuth.safeCompare(username, 'admin');
-    const passwordmatches = basicAuth.safeCompare(password, '1234');
+    const userMatches = basicAuth.safeCompare(username, usernameStr);
+    const passwordmatches = basicAuth.safeCompare(password, passwordStr);
     return userMatches & passwordmatches; 
 }; 
 
