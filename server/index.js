@@ -1,18 +1,36 @@
 const express = require('express');
 const jsonSettings = require('../settings.json');
 const mongoose = require('mongoose');
+const basicAuth = require('express-basic-auth'); 
 mongoose.connect(jsonSettings.connectionString,
     { useNewUrlParser: true, useUnifiedTopology: true });
-var db = mongoose.connection;
 const pokeDex = require('../Models/index').pokeDex;
 const bodyParser = require('body-parser');
+const path = require('path'); 
 const cors = require('cors'); 
 const app = express();
+
+/* Basic Authentication */ 
+app.use(basicAuth({authorizer: myAutherizer, challenge: true})); 
+
+function myAutherizer(username, password){
+    const userMatches = basicAuth.safeCompare(username, 'admin');
+    const passwordmatches = basicAuth.safeCompare(password, '1234');
+    return userMatches & passwordmatches; 
+}; 
+
+/* Middleware */ 
+app.use(express.static(path.join(__dirname, '../build'))); 
 app.use(cors());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
-const port = 3001;
+const port = 3000; 
+
+app.get('/', myAutherizer, (req,res)=>{
+    alert('on index!'); 
+    res.sendFile(path.join(__dirname, '../build/index.html')); 
+});
 
 app.get('/pokemon', async (req, res) =>
 {
@@ -47,8 +65,6 @@ app.get('/pokemon', async (req, res) =>
         res.json(sortall);       
     }   
 });
-
-
 
 app.get('/pokemon/:id', async (req, res) =>
 {
@@ -104,6 +120,10 @@ app.post('/pokemon/update', async(req, res) =>
     {
         res.send(`Pokemon could not be updated`);
     }
+});
+
+app.get('*', (req,res)=>{
+    res.sendFile(path.join(__dirname, '../build/index.html'));
 });
 
 app.listen(port, () => console.log(`Example app listening at http://localhost:${port}`));

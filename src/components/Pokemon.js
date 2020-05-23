@@ -1,5 +1,7 @@
 import React from 'react';
 import { withRouter } from "react-router-dom";
+var constants = require('../constants.json'); 
+
 var $ = require('jquery');
 
 class Pokemon extends React.Component {
@@ -13,7 +15,7 @@ class Pokemon extends React.Component {
     }
     componentDidMount() {
         const id = this.props.match.params.id;
-        fetch("http://localhost:3001/pokemon/" + id).then(res => res.json())
+        fetch(`http://localhost:${constants.expressPort}/pokemon/${id}`).then(res => res.json())
             .then(pokemon => this.setState({ pokemon: pokemon[0] }));
 
     }
@@ -35,7 +37,7 @@ class Pokemon extends React.Component {
         console.log(this.state.pokemon);
 
         $.ajax({
-            url:'http://localhost:3001/pokemon/update',
+            url:`http://localhost:${constants.expressPort}/pokemon/update`,
             method: 'POST',
             data: {
                 id: this.state.pokemon.idNumber, 

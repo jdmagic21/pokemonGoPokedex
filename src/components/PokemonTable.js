@@ -1,5 +1,6 @@
 import '../css/jquery.datatables.min.css';
 import React from 'react';
+const constants = require('../constants.json');
 
 const $ = require('jquery'); 
 require('datatables.net-buttons')(window, $); 
@@ -28,26 +29,22 @@ export default class PokemonTable extends React.Component {
               }],
               aaSorting: [],
               pageLength: 50,
-              ajax: {url:'http://localhost:3001/pokemon?sort=milesRemaining', dataSrc: "" },
+              ajax: {url:`http://localhost:${constants.expressPort}/pokemon?sort=milesRemaining`, dataSrc: "" },
               columns:[
                   {data: 'idNumber', title: "ID Number"},                  
                   {data: 'name', title: "Name", render: (data, type, full, meta)=>{
                       return "<a href=/pokemon/edit/"+full.idNumber+">"+data+"</a>"
                   }},
                   {data: 'milesRemaining', title: "Miles Remaining" },
-                  //{data: 'kms', title: "KM/Candy"},
-                  //{data: 'miles', title: "Miles/Candy"},
                   {data: 'threeStars', title: "Three Stars"},
                   {data: 'needed', title: "Needed"},
                   {data: 'evolutionCost', title: "Evolution Cost"},
                   {data: 'evolvesInto', title: "Evolves Into"},
                   {data: 'candyRemaining', title: "Candy Remaining"}
-                  //{data: 'kmsRemaining', title: "KM Remaining"},
                   
               ]
           }
       )
-      console.log(this.props.data); 
     }
     componentWillUnmount() { 
         this.$el.DataTable().destroy();
