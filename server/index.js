@@ -1,12 +1,24 @@
 const express = require('express');
-const jsonSettings = require('../settings.json');
 const mongoose = require('mongoose');
 const basicAuth = require('express-basic-auth'); 
-mongoose.connect(jsonSettings.connectionString,
+const fs = require('fs'); 
+const path = require('path'); 
+const settingsPath = path.resolve(__dirname, '../settings.json'); 
+var mongoConnectionString= ""; 
+
+//if local use settings file, else if on production use heroku config var
+if(fs.existsSync(settingsPath)){
+    mongoConnectionString = require('../settings.json').connectionString;
+}
+else{
+    mongoConnectionString = process.env.connectionString; 
+}
+
+mongoose.connect(mongoConnectionString,
     { useNewUrlParser: true, useUnifiedTopology: true });
+
 const pokeDex = require('../Models/index').pokeDex;
 const bodyParser = require('body-parser');
-const path = require('path'); 
 const cors = require('cors'); 
 const app = express();
 
