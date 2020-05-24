@@ -129,6 +129,7 @@ app.post('/pokemon/update', async(req, res) =>
             poke.candyCount = 0; 
             poke.kmsRemaining = undefined; 
             poke.milesRemaining = undefined; 
+            poke.candyRemaining = undefined; 
         }        
         
         await poke.save();
