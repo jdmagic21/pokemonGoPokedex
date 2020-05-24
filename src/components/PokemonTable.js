@@ -37,6 +37,7 @@ export default class PokemonTable extends React.Component {
                   {data: 'milesRemaining', title: "Miles Remaining" },
                   {data: 'threeStars', title: "Three Stars"},
                   {data: 'needed', title: "Needed"},
+                  {data: 'candyCount', title: "Candy Count"},
                   {data: 'evolutionCost', title: "Evolution Cost"},
                   {data: 'evolvesInto', title: "Evolves Into"},
                   {data: 'candyRemaining', title: "Candy Remaining"}
