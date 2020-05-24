@@ -1,6 +1,5 @@
 import React from 'react';
 import { withRouter } from "react-router-dom";
-var constants = require('../constants.json'); 
 
 var $ = require('jquery');
 
@@ -21,9 +20,13 @@ class Pokemon extends React.Component {
     }
     handleChange(event){
         var value = event.target.value; 
-            if(event.target.type === "checkbox"){
+            if(event.target.type === "checkbox"){                
                 event.target.checked === true ? value = true :value = false; 
-            }                   
+                event.target.value = value;
+            }
+                              
+       console.log(value);
+       console.log(event.target.value); 
 
         let currentPokemon = this.state.pokemon; 
         currentPokemon[event.target.name] = value; 
@@ -35,7 +38,6 @@ class Pokemon extends React.Component {
     }
     handleSubmit(event){
         console.log(this.state.pokemon);
-
         $.ajax({
             url:`/pokemon/update`,
             method: 'POST',
@@ -64,13 +66,13 @@ class Pokemon extends React.Component {
                     <div className="form-group">
                         <label htmlFor="candyCount">Candy Holding Count: </label>
                         <input type="number" className="form-control" defaultValue={this.state.pokemon.candyCount || ''} name="candyCount" 
-                        onChange={this.handleChange}/>
+                        onInput={this.handleChange}/>
                     </div>
 
                     <div className="form-group">
                         <div className="form-check">
                         <input type="checkbox" htmlFor="threeStars" className="form-check-input" id="threeStars" name="threeStars" defaultChecked={this.state.pokemon.threeStars}
-                        onChange={this.handleChange}
+                        onClick={this.handleChange}
                         value="false"/>
                             <label htmlFor="threeStars" className="form-check-label">Three Stars </label>
                           
@@ -79,7 +81,7 @@ class Pokemon extends React.Component {
                     <div className="form-group">
                     <div className="form-check">
                     <input type="checkbox" className="form-check-input" id="needed" name="needed" defaultChecked={this.state.pokemon.needed}
-                    onChange={this.handleChange}
+                    onClick={this.handleChange}
                     />
                         <label htmlFor="needed">Needed</label>
                        </div>

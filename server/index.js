@@ -47,7 +47,6 @@ app.use(bodyParser.urlencoded({ extended: true }));
 const port = process.env.PORT || 3000; 
 
 app.get('/', myAutherizer, (req,res)=>{
-    alert('on index!'); 
     res.sendFile(path.join(__dirname, '../build/index.html')); 
 });
 
@@ -113,23 +112,23 @@ app.post('/pokemon/update', async(req, res) =>
     var poke = await pokeDex.findOne({idNumber: req.body.id});
 
     if (poke != null)
-    {
-        poke.candyCount = req.body.candyCount || poke.candyCount;
-        poke.threeStars = req.body.threeStars || poke.threeStars;
-        poke.needed = req.body.needed || poke.needed; 
-        const candyRemaining = poke.evolutionCost - poke.candyCount; 
-        if(candyRemaining > 0){
+    {     
+        const candyCountInt = Number(req.body.candyCount); 
+        poke.threeStars = req.body.threeStars;
+        poke.needed = req.body.needed;
+        
+        if(candyCountInt > 0){
+            const candyRemaining = poke.evolutionCost - candyCountInt; 
+            poke.candyCount = candyCountInt; 
             poke.candyRemaining = candyRemaining; 
             poke.kmsRemaining = candyRemaining * poke.kms; 
             poke.milesRemaining = (candyRemaining * poke.miles).toFixed(2);
         }
         else
         {
-            poke.candyRemaining = 0; 
-            if(poke.evolutionCost != null){
-                poke.kmsRemaining =  poke.evolutionCost * poke.kms; 
-                poke.milesRemaining = (poke.evolutionCost * poke.miles).toFixed(2); 
-            }     
+            poke.candyCount = 0; 
+            poke.kmsRemaining = undefined; 
+            poke.milesRemaining = undefined; 
         }        
         
         await poke.save();
