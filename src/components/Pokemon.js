@@ -56,7 +56,15 @@ class Pokemon extends React.Component {
     }
 
     render() {
-        const pokemonImgUrl = "https://db.pokemongohub.net/images/official/full/" + this.state.pokemon.idNumber + ".png"; 
+        var idStr = this.state.pokemon.idNumber;   
+        if(this.state.pokemon.idNumber < 10){
+            idStr = "00"+this.state.pokemon.idNumber;
+        }      
+        else if(this.state.pokemon.idNumber < 100 ){
+            idStr = "0"+this.state.pokemon.idNumber;
+        }
+       
+        const pokemonImgUrl = "https://db.pokemongohub.net/images/official/full/" + idStr + ".png"; 
 
         return (
             <div>
