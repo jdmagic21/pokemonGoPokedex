@@ -1,6 +1,5 @@
 import '../css/jquery.datatables.min.css';
 import React from 'react';
-const constants = require('../constants.json');
 
 const $ = require('jquery'); 
 require('datatables.net-buttons')(window, $); 

@@ -4,14 +4,16 @@ const basicAuth = require('express-basic-auth');
 const fs = require('fs'); 
 const path = require('path'); 
 const settingsPath = path.resolve(__dirname, '../settings.json'); 
-var mongoConnectionString= "", usernameStr, passwordStr; 
+var mongoConnectionString= ""
+var usernameStr = "";
+var passwordStr = ""; 
 
 //if local use settings file, else if on production use heroku config var
 if(fs.existsSync(settingsPath)){
     const settings = require('../settings.json'); 
     mongoConnectionString = settings.connectionString;
     usernameStr = settings.username; 
-    passwordStr = settings.passwordStr;
+    passwordStr = settings.password;
 }
 else{
     mongoConnectionString = process.env.connectionString; 
