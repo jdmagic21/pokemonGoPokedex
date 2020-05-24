@@ -37,7 +37,7 @@ class Pokemon extends React.Component {
         console.log(this.state.pokemon);
 
         $.ajax({
-            url:`http://localhost:${constants.expressPort}/pokemon/update`,
+            url:`/pokemon/update`,
             method: 'POST',
             data: {
                 id: this.state.pokemon.idNumber, 
