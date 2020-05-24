@@ -1,4 +1,16 @@
 var mongoose = require('mongoose'); 
+var fs = require('fs'); 
+const path = require('path'); 
+const settingsPath = path.resolve(__dirname, '../settings.json'); 
+var collection = ""; 
+
+if(fs.existsSync(settingsPath)){
+    const settings = require('../settings.json'); 
+    collection = settings.collection; 
+}
+else{
+    collection = process.env.collection; 
+}
 
 var pokeDexSchema = new mongoose.Schema({
     idNumber: Number,
@@ -13,10 +25,10 @@ var pokeDexSchema = new mongoose.Schema({
     candyRemaining: Number,
     kmsRemaining: Number, 
     milesRemaining: Number
-}, {collection: 'pokeDex'});
+}, {collection: collection});
 
 
-var pokeDex = mongoose.model('pokeDex', pokeDexSchema); 
+var pokeDex = mongoose.model(collection, pokeDexSchema); 
 
 module.exports = {
     pokeDex: pokeDex
