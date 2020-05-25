@@ -1,8 +1,12 @@
 const express = require('express');
 const mongoose = require('mongoose');
-const basicAuth = require('express-basic-auth'); 
 const fs = require('fs'); 
 const path = require('path'); 
+var HandlerGenerator = require('./handleGenerator').HandlerGenerator; 
+var handlers = new HandlerGenerator(); 
+let middleware = require('./middleware');
+var cookieParser = require('cookie-parser');  
+
 const settingsPath = path.resolve(__dirname, '../settings.json'); 
 var mongoConnectionString= ""
 var usernameStr = "";
@@ -28,27 +32,25 @@ const pokeDex = require('../Models/index').pokeDex;
 const bodyParser = require('body-parser');
 const cors = require('cors'); 
 const app = express();
-
-/* Basic Authentication */ 
-app.use(basicAuth({authorizer: myAutherizer, challenge: true})); 
-
-function myAutherizer(username, password){
-    const userMatches = basicAuth.safeCompare(username, usernameStr);
-    const passwordmatches = basicAuth.safeCompare(password, passwordStr);
-    return userMatches & passwordmatches; 
-}; 
-
 /* Middleware */ 
-app.use(express.static(path.join(__dirname, '../build'))); 
+ 
 app.use(cors());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: true }));
+app.use(cookieParser()); 
 const port = process.env.PORT || 3000; 
 
-app.get('/', myAutherizer, (req,res)=>{
-    res.sendFile(path.join(__dirname, '../build/index.html')); 
+
+
+app.get('/login', (req, res)=>{
+    res.sendFile(path.resolve(__dirname, '../public/login.html')); 
 });
+
+app.post('/authorize', handlers.login);
+
+app.get('/', middleware.checkToken, handlers.index);
+app.use(express.static(path.join(__dirname, '../build')));
+
 
 app.get('/pokemon', async (req, res) =>
 {
@@ -141,8 +143,6 @@ app.post('/pokemon/update', async(req, res) =>
     }
 });
 
-app.get('*', (req,res)=>{
-    res.sendFile(path.join(__dirname, '../build/index.html'));
-});
+app.get('*', middleware.checkToken, handlers.index);
 
 app.listen(port, () => console.log(`Example app listening at http://localhost:${port}`));

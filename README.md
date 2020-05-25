@@ -60,6 +60,8 @@ Reference "Script Definitions" section were needed.
     - [ Integration DataTables](https://www.youtube.com/watch?v=ZCKj0SJRTB8)
 
 ## Other Reading ##
+### Authentication & Authorization
+- [JWT with Node.js](https://medium.com/better-programming/authentication-and-authorization-using-jwt-with-node-js-4099b2e6ca1f)
 ### Create React App
 - [Running tests](https://bit.ly/2TzoB1c)
 - [Deployment](https://bit.ly/2LUm90X)

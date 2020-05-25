@@ -2,6 +2,7 @@ import React from 'react';
 import './App.css';
 import PokemonTable from './components/PokemonTable'; 
 import Pokemon from './components/Pokemon'; 
+import Login from './components/Login'; 
 
 import { 
   BrowserRouter as Router,
@@ -24,8 +25,10 @@ class App extends React.Component{
       <div className="Container">
       <Router>        
       
-      <Switch>
-        
+      <Switch>  
+        <Route path="/login">
+            <Login /> 
+          </Route>      
         <Route path="/pokemon/edit/:id">
           <div className="row justify-content-center">
             <Pokemon /> 

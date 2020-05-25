@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pokemon Go Pokedex</title>
+    <link rel="stylesheet" href="https://getbootstrap.com/docs/4.0/dist/css/bootstrap.min.css">
+    <style>
+        .form-signin{
+    width: 100%; 
+    max-width: 300px;
+    padding: 15px; 
+    margin: 0 auto; 
+}
+    </style>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script>
+    $(document).ready(function(){
+        $('form').on('submit', function(e){
+          const formData = $(this).serializeArray(); 
+            e.preventDefault();
+        $.ajax({
+            url: '/authorize',
+            method: 'POST', 
+            data: formData,
+            success: function(data){
+                document.cookie="jwt="+data.token+";";
+                window.location.href='/';
+            }
+        });        
+    });
+
+    function getURLParameter(name) {
+  return decodeURIComponent((new RegExp('[?|&]' + name + '=' + '([^&;]+?)(&|#|;|$)').exec(location.search) || [null, ''])[1].replace(/\+/g, '%20')) || null;
+    }
+
+    if(getURLParameter('errorCode') == 1){
+        $('#errorCode-1').show(); 
+    }
+    else if(getURLParameter('errorCode') == 2){
+        $('#errorCode-2').show(); 
+    }
+    });  
+</script>
+</head>
+<body class="text-center">
+    <div class="alert alert-warning" id="errorCode-1" style="display:none;" role="alert">
+        Access denied. Please log in. 
+      </div>
+      <div class="alert alert-danger" id="errorCode-2" style="display: none;" role="alert">
+        Your current session has expired. Please sign in again.
+      </div>    
+
+    <form class="form-signin" method="get", action="/login">
+      <img class="mb-4" src="https://getbootstrap.com/assets/brand/bootstrap-solid.svg" alt="" width="72" height="72">
+      <h1 class="h3 mb-3 font-weight-normal">Login</h1>
+      <label for="inputUsername" class="sr-only">Username</label>
+      <input type="text" id="inputUsername" class="form-control" placeholder="Username" required autofocus name="username"><br/>
+      <label for="inputPassword" class="sr-only">Password</label>
+      <input type="password" id="inputPassword" class="form-control" placeholder="Password" required name="password"><br/>
+      <button class="btn btn-lg btn-primary btn-block">Sign in</button>
+    </form>
+
+    
+
+  </body>
+</html>
