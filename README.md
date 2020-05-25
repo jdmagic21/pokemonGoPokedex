@@ -1,6 +1,6 @@
 # Pokémon Go Pokédex Web Application #
 ## Background
-Pokémon Go is different than the original GameBoy games in that in order to evolve a Pokémon you have to collect enough candies. The number of candies needed vary between each Pokémon. When you catch a Pokémon you are awarded a collection of candies and when you transfer or essentially delete a Pokémon from your bag you are also awarded a single candy. The other way a trainer can receive candy is by walking with a Pokémon. The app will track by GPS the number of KM's you walk even when the app is not running. The distance requirement can very from 2KM to 20KM.
+Pokémon Go is different than the original GameBoy games in that in order to evolve a Pokémon you have to collect enough candies. The number of candies needed vary between each Pokémon. When you catch a Pokémon you are awarded a collection of candies and when you transfer or essentially delete a Pokémon from your bag you are also awarded a single candy. The other way a trainer can receive candy is by walking with a Pokémon. The app will track by GPS the number of KM's you walk even when the app is not running. The distance requirement can very from 2KM to 20KM per candy.
 
 ## Motivation
 To create a user friendly application that allows a trainer to see which Pokémon they should walk with next sorted by the number of miles required and quickly fill up their Pokédex.
@@ -26,11 +26,13 @@ This app was originally built for use with the Mongo Atlas database service and 
 
 
 ## Workflow
+Reference "Script Definitions" section were needed.
 1. Run express server and development instance of React app. 
 2. Make any needed changes
 3. Stop express server and dev processes
 4. Run `heroku local` if using Heroku to test before pushing
-5. Push to your server
+5. Build the react app
+6. Push to your server
 
 ## Script Definitions
 - `node /server/index.js`: Runs Express API script
@@ -42,7 +44,6 @@ This app was originally built for use with the Mongo Atlas database service and 
 - `node SeedData/index.js -h`:Seed data to your database
     - `node /SeedData/index.js --sd`: Add all Pokémon and distances
     - `node /SeedData/index.js --se`: Add all Pokémon evolution requirements.
-
 
 ## Learning Objectives ##
 
