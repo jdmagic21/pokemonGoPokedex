@@ -19,8 +19,14 @@ class Pokemon extends React.Component
     {
         const id = this.props.match.params.id;
         fetch(`/pokemon/${id}`).then(res => res.json())
-            .then(pokemon => this.setState({ pokemon: pokemon[0] }));
-
+            .then(pokemonA =>{
+                fetch(`https://pokeapi.co/api/v2/pokemon/${id}`)
+                .then(res => res.json())
+                .then(pokemonB => {                 
+                   const pokemonType = pokemonB.types[pokemonB.types.length-1].type.name; 
+                    this.setState({pokemon: {...pokemonA[0], type: pokemonType}}); 
+                });             
+            });  
     }
     handleChange(event)
     {
@@ -76,18 +82,18 @@ class Pokemon extends React.Component
         return (
             <div>
                 <nav aria-label="breadcrumb">
-                    <ol class="breadcrumb">
-                        <li class="breadcrumb-item"><a href="/">Home</a></li>
-                        <li class="breadcrumb-item active" aria-current="page">{this.state.pokemon.name}</li>
+                    <ol className="breadcrumb">
+                        <li className="breadcrumb-item"><a href="/">Home</a></li>
+                        <li className="breadcrumb-item active" aria-current="page">{this.state.pokemon.name}</li>
                     </ol>
                 </nav>
 
 
-                <div class="card">
-                    <img className="card-img-top" src={pokemonImgUrl} width="200px" alt="Card cap" />
-                    <div class="card-body">
-                        <h4 class="card-title">Update {this.state.pokemon.name}</h4>
-                        <div class="card-text">
+                <div className="card">
+                    <img src={pokemonImgUrl} className={`card-img-top type-${this.state.pokemon.type}`} width="200px" alt="Card cap" />
+                    <div className="card-body">
+                        <h4 className="card-title">Update {this.state.pokemon.name}</h4>
+                        <div className="card-text">
                             <form onSubmit={this.handleSubmit}>
                                 <div className="form-group">
                                     <label htmlFor="candyCount">Candy Holding Count: </label>
