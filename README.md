@@ -9,11 +9,11 @@ To create a user friendly application that allows a trainer to see which Pokémo
 ![Mobile Index View](https://i.imgur.com/JcPkFun.jpg)  ![Mobile View Update View](https://i.imgur.com/vA5Xsri.jpg)
 
 ## Installation/Setup Instructions
-This app was originally built for use with the Mongo Atlas database service and hosting through Heroku. The app will either look for a settings.json file or use your servers configuration variables. Below is general outline of first steps for integration with your own database and hosting service.
+This app was originally built for use with the Mongo Atlas database service and hosting through Heroku. The app will either look for a settings.json file or use your servers [environment variables](https://bit.ly/2TBYXJa). Below is general outline of first steps for integration with your own database and hosting service.
 
 1. `npm i`: Install all necessary dependencies
-2. Create a settings.json file using the below sample dummy data
-    - Keep this file hidden using the .gitignore file
+2. Create a settings.json file replacing the below sample dummy data
+    - <b>Keep this file hidden using the .gitignore file</b>
 ```Json
 {
     "connectionString": "url (atlas or ip address)", 
@@ -27,6 +27,11 @@ This app was originally built for use with the Mongo Atlas database service and 
     a. `node /SeedData/index.js --sd` <br/>
     b. `node /SeedData/index.js --se` <br/>
 
+### Mongo Atlas & Heroku ###
+1. Sign up for an account and create a new cluster<br/>
+    a. Click on connect and follow the "Connect your application" steps 
+2. Create a new account with Heroku and create a new application. Under Settings match your config vars with your settings.json file</br>
+    a. Follow the deployment steps found under the "Deploy" tab
 
 ## Workflow
 Reference "Script Definitions" section were needed.
@@ -49,8 +54,16 @@ Reference "Script Definitions" section were needed.
     - `node /SeedData/index.js --se`: Add all Pokémon evolution requirements.
 
 ## Learning Objectives ##
+- Setup basic authentication using [Express Basic Auth](https://bit.ly/2ZxNhLh)
+- Add third party Jquery plugins to a React app
+    - [Integration other libraries](https://bit.ly/2ZvULyB)
+    - [ Integration DataTables](https://www.youtube.com/watch?v=ZCKj0SJRTB8)
 
-## Resource Links ##
-- [Create-react-app: running tests](https://facebook.github.io/create-react-app/docs/running-tests)
-- [Create-react-app: deployment](https://facebook.github.io/create-react-app/docs/deployment)
+## Other Reading ##
+### Create React App
+- [Running tests](https://bit.ly/2TzoB1c)
+- [Deployment](https://bit.ly/2LUm90X)
+### DataTables ###
+- [Unknown parameter '0' from data source](https://bit.ly/2XsNI71)
+
 
