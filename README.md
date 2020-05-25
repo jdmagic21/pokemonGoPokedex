@@ -6,22 +6,47 @@ Pokémon Go is different than the original GameBoy games in that in order to evo
 To create a user friendly application that allows a trainer to see which Pokémon they should walk with next sorted by the number of miles required and quickly fill up their Pokédex.
 
 ## Installation/Setup Instructions
+This app was originally built for use with the Mongo Atlas database service and hosting through Heroku. The app will either look for a settings.json file or use your servers configuration variables. Below is general outline of first steps for integration with your own database and hosting service.
 
-## Available Scripts
-### `yarn start`
-- Runs the app from from the `build` folder
-- <b>Note:</b> `yarn build` needs to be ran first
+1. `npm i`: Install all necessary dependencies
+2. Create a settings.json file using the below sample dummy data
+    - Keep this file hidden using the .gitignore file
+```Json
+{
+    "connectionString": "url (atlas or ip address)", 
+    "username": "username",
+    "password": "password",
+    "collection": "mongo db collection name"
+}
+```
+3. Copy the above object properties name strings and create configuration variables.
+4. Run seed data scrips in the below sequence<br/>
+    a. `node /SeedData/index.js --sd` <br/>
+    b. `node /SeedData/index.js --se` <br/>
 
-### `yarn reactStart`
-- Runs the app in the development mode independent of Express
 
-### `yarn test`
-- Launches the test runner in the interactive watch mode.
+## Workflow
+1. Run express server and development instance of React app. 
+2. Make any needed changes
+3. Stop express server and dev processes
+4. Run `heroku local` if using Heroku to test before pushing
+5. Push to your server
 
-### `yarn build`
-- Builds the app for production to the `build` folder.
+## Script Definitions
+- `node /server/index.js`: Runs Express API script
+- `yarn start`: Run app from the /build folder, but `yarn build` needs to be ran first
+- `yarn build`: Builds the app for production to the `build` folder
+- `yarn reactStart`:  Runs the app in the development mode independent of Express
+- `yarn test`: Launches the test runner in the interactive watch mode.
+- `heroku local`: Heroku local server instance to test before pushing to server
+- `node SeedData/index.js -h`:Seed data to your database
+    - `node /SeedData/index.js --sd`: Add all Pokémon and distances
+    - `node /SeedData/index.js --se`: Add all Pokémon evolution requirements.
 
-# Resource Links #
+
+## Learning Objectives ##
+
+## Resource Links ##
 - [Create-react-app: running tests](https://facebook.github.io/create-react-app/docs/running-tests)
 - [Create-react-app: deployment](https://facebook.github.io/create-react-app/docs/deployment)
 
