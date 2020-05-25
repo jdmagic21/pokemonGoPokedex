@@ -3,7 +3,10 @@
 Pokémon Go is different than the original GameBoy games in that in order to evolve a Pokémon you have to collect enough candies. The number of candies needed vary between each Pokémon. When you catch a Pokémon you are awarded a collection of candies and when you transfer or essentially delete a Pokémon from your bag you are also awarded a single candy. The other way a trainer can receive candy is by walking with a Pokémon. The app will track by GPS the number of KM's you walk even when the app is not running. The distance requirement can very from 2KM to 20KM per candy.
 
 ## Motivation
-To create a user friendly application that allows a trainer to see which Pokémon they should walk with next sorted by the number of miles required so they can quickly fill up their Pokédex.
+To create a user friendly application that allows a trainer to see which Pokémon they should walk with next sorted by the number of miles required in which case they can quickly fill up their Pokédex.
+
+## Screenshots
+![Mobile Index View](https://i.imgur.com/JcPkFun.jpg)  ![Mobile View Update View](https://i.imgur.com/vA5Xsri.jpg)
 
 ## Installation/Setup Instructions
 This app was originally built for use with the Mongo Atlas database service and hosting through Heroku. The app will either look for a settings.json file or use your servers configuration variables. Below is general outline of first steps for integration with your own database and hosting service.
