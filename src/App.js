@@ -27,7 +27,7 @@ class App extends React.Component{
       <Switch>
         
         <Route path="/pokemon/edit/:id">
-          <div className="row">
+          <div className="row justify-content-center">
             <Pokemon /> 
             </div>
           </Route>

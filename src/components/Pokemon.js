@@ -23,10 +23,7 @@ class Pokemon extends React.Component {
             if(event.target.type === "checkbox"){                
                 event.target.checked === true ? value = true :value = false; 
                 event.target.value = value;
-            }
-                              
-       console.log(value);
-       console.log(event.target.value); 
+            }                              
 
         let currentPokemon = this.state.pokemon; 
         currentPokemon[event.target.name] = value; 
@@ -37,7 +34,6 @@ class Pokemon extends React.Component {
 
     }
     handleSubmit(event){
-        console.log(this.state.pokemon);
         $.ajax({
             url:`/pokemon/update`,
             method: 'POST',
@@ -67,9 +63,9 @@ class Pokemon extends React.Component {
         const pokemonImgUrl = "https://db.pokemongohub.net/images/official/full/" + idStr + ".png"; 
 
         return (
-            <div>
-                <h1>Update Pokemon {this.state.pokemon.name}</h1>
-                <img src={pokemonImgUrl} width="200px;" alt={this.state.pokemon.name}/>
+            <div className="col-md-4">
+                <h1 className="text-center">Update {this.state.pokemon.name}</h1>
+                <img src={pokemonImgUrl} width="200px;" alt={this.state.pokemon.name} className="mx-auto d-block"/>
                 <form onSubmit={this.handleSubmit}>
                     <div className="form-group">
                         <label htmlFor="candyCount">Candy Holding Count: </label>
@@ -95,7 +91,7 @@ class Pokemon extends React.Component {
                        </div>
                     </div>
 
-                <button type="submit" className="btn btn-primary">Update</button>
+                <button type="submit" className="btn btn-primary float-right">Update</button>
 
                 </form>
 
