@@ -1,23 +1,17 @@
 const {MongoClient} = require('mongodb'); 
-const fs = require('fs'); 
-const path = require('path'); 
-const settingsPath = path.resolve(__dirname, '../settings.json'); 
-var mongoConnectionString= ""
+const argv = require('yargs').argv; 
 
-if(fs.existsSync(settingsPath)){
-    const settings = require('../settings.json'); 
-    mongoConnectionString = settings.connectionString;
-}
-else{
-    mongoConnectionString = process.env.connectionString; 
-}
+const cs = argv.cs; 
+console.log(argv); 
+//return arguments from node run
+
 
 describe('Database', ()=>{
     let connection;
     let db; 
 
 beforeAll(async ()=>{
-    connection = await MongoClient.connect(mongoConnectionString,{
+    connection = await MongoClient.connect(cs,{
         useNewUrlParser: true,
         useUnifiedTopology: true
     });
