@@ -10,7 +10,7 @@ Pokémon Go is different than the original GameBoy games in that in order to evo
 To create a user friendly application that allows a trainer to see which Pokémon they should walk with next sorted by the number of miles required in which case they can quickly fill up their Pokédex.
 
 ## Screenshots
-![Mobile Login View](https://imgur.com/HY6O7Rz) ![Mobile Index View](https://i.imgur.com/JcPkFun.jpg) ![Mobile View Update View](https://imgur.com/vhjVJUK)
+![Mobile Login View](https://i.imgur.com/HY6O7Rz.jpg) ![Mobile Index View](https://i.imgur.com/JcPkFun.jpg) ![Mobile View Update View](https://i.imgur.com/vhjVJUK.jpg)
 
 ## Installation/Setup Instructions
 This app was originally built for use with the Mongo Atlas database service and hosting through Heroku. The app will either look for a settings.json file or use your servers [environment variables](https://bit.ly/2TBYXJa). Below is general outline of first steps for integration with your own database and hosting service.
