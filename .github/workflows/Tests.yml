@@ -13,6 +13,7 @@ jobs:
     steps:
     - uses: actions/checkout@v1
     - name: Run Jest
-      with: 
-        super_secret: ${{secrets.MONGO_CONNECTION_STRING}}
-      uses: stefanoeb/jest-action@1.0.2
+      env:
+        MY_VAR: env var hello world!
+      run: yarn test --cs=$MY_VAR
+      # uses: stefanoeb/jest-action@1.0.2
