@@ -2,12 +2,6 @@ const pokeDex = require('../Models/').pokeDex;
 const constants = require('../constants.json'); 
 const fetch = require('node-fetch'); 
 const cheerio = require('cheerio'); 
-const mongoose = require('mongoose'); 
-var jsonSettings = require('../settings.json'); 
-mongoose.connect(jsonSettings.connectionString,
-    {useNewUrlParser: true, useUnifiedTopology: true}); 
-var db = mongoose.connection;
-
 
 async function getPokemonEvolutionDistance(){
     return fetch(constants.evolutionsUrl).then(res=>res.text())

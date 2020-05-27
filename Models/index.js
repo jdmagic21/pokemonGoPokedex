@@ -27,9 +27,18 @@ var pokeDexSchema = new mongoose.Schema({
     milesRemaining: Number
 }, {collection: collection});
 
+var imagesSchema = new mongoose.Schema({
+    idNumber: Number,
+    "96x96Type": Object,
+    "96x96Base64": String, 
+    "475x475Type:": Object,
+    "475x475Base64": String
+}); 
 
+var images = mongoose.model("images", imagesSchema); 
 var pokeDex = mongoose.model(collection, pokeDexSchema); 
 
 module.exports = {
-    pokeDex: pokeDex
+    pokeDex: pokeDex,
+    images: images
 }

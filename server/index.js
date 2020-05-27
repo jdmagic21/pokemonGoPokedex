@@ -40,8 +40,6 @@ app.use(bodyParser.json());
 app.use(cookieParser()); 
 const port = process.env.PORT || 3000; 
 
-
-
 app.get('/login', (req, res)=>{
     res.sendFile(path.resolve(__dirname, '../public/login.html')); 
 });
