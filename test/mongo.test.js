@@ -18,7 +18,8 @@ describe('Database', ()=>{
 
 beforeAll(async ()=>{
     connection = await MongoClient.connect(mongoConnectionString,{
-        useNewUrlParser: true
+        useNewUrlParser: true,
+        useUnifiedTopology: true
     });
     db = await connection.db('pokemonGo') 
 })
