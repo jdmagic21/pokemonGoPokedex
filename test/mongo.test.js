@@ -2,7 +2,7 @@ const {MongoClient} = require('mongodb');
 const argv = require('yargs').argv; 
 
 const cs = argv.cs; 
-console.log(argv); 
+console.log(process.env); 
 //return arguments from node run
 
 

@@ -15,5 +15,4 @@ jobs:
     - name: Run Jest
       env:
         MY_VAR: env var hello world!
-      run: yarn test --cs=$MY_VAR
       uses: stefanoeb/jest-action@1.0.2
