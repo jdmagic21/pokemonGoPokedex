@@ -1,11 +1,17 @@
 const {MongoClient} = require('mongodb'); 
-const argv = require('yargs').argv; 
+const fs = require('fs'); 
+const path = require('path'); 
+let cs; 
+//check if there is a settings file and use this connection string, 
+//or use the environment variable set in github. 
 
-const cs = argv.cs; 
-console.log(process.env); 
-//return arguments from node run
-
-
+if( fs.existsSync(path.resolve(__dirname, 'settings.json')) ){
+    var settings = require('../settings.json'); 
+    cs = settings.connectionString; 
+}
+else{
+    cs = process.env.MONGO_CONNECTION_STRING; 
+}
 describe('Database', ()=>{
     let connection;
     let db; 
