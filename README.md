@@ -1,7 +1,7 @@
 # Pokémon Go Pokédex Web Application #
 ![GitHub tag (latest by date)](https://img.shields.io/github/v/tag/jdmagic21/pokemonGoPokedex?label=Release)
 [![tested with jest](https://img.shields.io/badge/tested_with-jest-99424f.svg)](https://github.com/facebook/jest)
-![Twitter Follow](https://img.shields.io/twitter/follow/codedcontainer?style=social)
+[![Twitter Follow](https://img.shields.io/twitter/follow/codedcontainer?style=social)](https://www.twitter.com/codedcontainer)
 
 ## Background
 Pokémon Go is different than the original GameBoy games in that in order to evolve a Pokémon you have to collect enough candies. The number of candies needed vary between each Pokémon. When you catch a Pokémon you are awarded a collection of candies and when you transfer or essentially delete a Pokémon from your bag you are also awarded a single candy. The other way a trainer can receive candy is by walking with a Pokémon. The app will track by GPS the number of KM's you walk even when the app is not running. The distance requirement can very from 2KM to 20KM per candy.
