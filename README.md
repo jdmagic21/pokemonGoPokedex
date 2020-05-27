@@ -10,12 +10,12 @@ Pokémon Go is different than the original GameBoy games in that in order to evo
 To create a user friendly application that allows a trainer to see which Pokémon they should walk with next sorted by the number of miles required in which case they can quickly fill up their Pokédex.
 
 ## Screenshots
-![Mobile Index View](https://i.imgur.com/JcPkFun.jpg)  ![Mobile View Update View](https://i.imgur.com/vA5Xsri.jpg)
+![Mobile Login View](https://i.imgur.com/lPAQoOs.jpg) ![Mobile Index View](https://i.imgur.com/JcPkFun.jpg) ![Mobile View Update View](https://imgur.com/XH8HhFE)
 
 ## Installation/Setup Instructions
 This app was originally built for use with the Mongo Atlas database service and hosting through Heroku. The app will either look for a settings.json file or use your servers [environment variables](https://bit.ly/2TBYXJa). Below is general outline of first steps for integration with your own database and hosting service.
 
-1. `npm i`: Install all necessary dependencies
+1. `yarn install`: Install all necessary dependencies
 2. Create a settings.json file replacing the below sample dummy data
     - <b>Keep this file hidden using the .gitignore file</b>
 ```Json
@@ -23,7 +23,8 @@ This app was originally built for use with the Mongo Atlas database service and 
     "connectionString": "url (atlas or ip address)", 
     "username": "username",
     "password": "password",
-    "collection": "mongo db collection name"
+    "collection": "mongo db collection name",
+    "secret": "random secret string"
 }
 ```
 3. Copy the above object properties name strings and create configuration variables.
