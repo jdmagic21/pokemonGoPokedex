@@ -1,6 +1,6 @@
 # Pokémon Go Pokédex Web Application #
+![GitHub tag (latest by date)](https://img.shields.io/github/v/tag/jdmagic21/pokemonGoPokedex?label=Release)
 [![tested with jest](https://img.shields.io/badge/tested_with-jest-99424f.svg)](https://github.com/facebook/jest)
-![GitHub package.json version](https://img.shields.io/github/package-json/v/jdmagic21/pokemonGoPokedex)
 ![Twitter Follow](https://img.shields.io/twitter/follow/codedcontainer?style=social)
 
 ## Background
