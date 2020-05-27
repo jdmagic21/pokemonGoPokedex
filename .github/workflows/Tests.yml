@@ -15,4 +15,4 @@ jobs:
     - name: Run Jest
       env:
         MONGO_CONNECTION_STRING: ${{secrets.MONGO_CONNECTION_STRING}}
-      uses: stefanoeb/jest-action@1.0.3
+      uses: stefanoeb/jest-action@1.0.2
