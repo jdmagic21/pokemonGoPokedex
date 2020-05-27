@@ -1,18 +1,19 @@
 const {MongoClient} = require('mongodb'); 
 const fs = require('fs'); 
 const path = require('path'); 
+var settings = require('../settings.json'); 
 let cs; 
+jest.useFakeTimers(); 
 //check if there is a settings file and use this connection string, 
 //or use the environment variable set in github. 
 
-if( fs.existsSync(path.resolve(__dirname, 'settings.json')) ){
-    var settings = require('../settings.json'); 
+if( fs.existsSync(path.resolve(__dirname, '../settings.json')) ){
     cs = settings.connectionString; 
 }
 else{
     cs = process.env.MONGO_CONNECTION_STRING; 
 }
-describe('Database', ()=>{
+describe('Database Connection', ()=>{
     let connection;
     let db; 
 
@@ -21,7 +22,10 @@ beforeAll(async ()=>{
         useNewUrlParser: true,
         useUnifiedTopology: true
     });
-    db = await connection.db('pokemonGo') 
+    db = await connection.db('pokemonGo'); 
+    
+    
+
 })
 afterAll(async()=>{
     await connection.close();
@@ -34,5 +38,3 @@ test('returns pokemon from PokeDex collection',async()=>{
 }); 
 
 }); 
-
-

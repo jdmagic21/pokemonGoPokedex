@@ -6,7 +6,7 @@ async function getPokemon()
     return new Promise((resolve, reject) =>
     {
         fetch('/pokemon')
-            .then(res = res.json())
+            .then(res => res.json())
             .then(pokemon =>
             {
                 resolve(pokemon);
