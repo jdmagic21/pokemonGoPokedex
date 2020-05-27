@@ -1,13 +1,13 @@
 const {MongoClient} = require('mongodb'); 
 const fs = require('fs'); 
 const path = require('path'); 
-var settings = require('../settings.json'); 
 let cs; 
 jest.useFakeTimers(); 
 //check if there is a settings file and use this connection string, 
 //or use the environment variable set in github. 
 
 if( fs.existsSync(path.resolve(__dirname, '../settings.json')) ){
+    var settings = require('../settings.json');
     cs = settings.connectionString; 
 }
 else{
