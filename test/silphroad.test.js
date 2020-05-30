@@ -2,6 +2,7 @@
 const fetch = require('node-fetch');
 
 test('Return buddy candy requirement object', async(done) =>{
+    jest.setTimeout(10000); 
     fetch('https://thesilphroad.com/buddy-candy-requirements')
         .then(res=>res.text())
         .then(body=>{ 
