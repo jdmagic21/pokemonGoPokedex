@@ -29,10 +29,10 @@ var pokeDexSchema = new mongoose.Schema({
 
 var imagesSchema = new mongoose.Schema({
     idNumber: Number,
-    "96x96Type": Object,
-    "96x96Base64": String, 
-    "475x475Type:": Object,
-    "475x475Base64": String
+    iconType: Object,
+    iconBase64: String, 
+    fullType: Object,
+    fullBase64: String
 }); 
 
 var images = mongoose.model("images", imagesSchema); 

@@ -84,10 +84,16 @@ app.get('/pokemon', async (req, res) =>
     }   
 });
 
+app.get('/pokemon/image/:id', async(req, res)=>{
+    const images = mongoose.model('images'); 
+    const singlePokeImage = await images.find({idNumber: req.params.id}).exec(); 
+    return res.json(singlePokeImage[0]);
+});
+
 app.get('/pokemon/:id', async (req, res) =>
 {
     const singlePoke = await pokeDex.find({idNumber: req.params.id}).exec();
-    res.json(singlePoke);
+    res.json(singlePoke[0]);
 });
 
 app.post('/pokemon/reset/:id', async (req, res) =>

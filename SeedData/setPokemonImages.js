@@ -1,11 +1,14 @@
 const fetch = require('node-fetch');
+const fileType = require('file-type'); 
+const imageModel = require('../Models/').images; 
+const idPadding = require('../src/setIdPadding').setIdNumberPadding; 
 
 //loop through all pokemon in the pokedex collection
 async function getPokemon()
 {
     return new Promise((resolve, reject) =>
     {
-        fetch('/pokemon')
+        fetch('http://localhost:3000/pokemon')
             .then(res => res.json())
             .then(pokemon =>
             {
@@ -18,25 +21,74 @@ async function getPokemon()
 }
 
 //for each pokemon fetch image from https://assets.thesilphroad.com/img/pokemon/icons/96x96/10.png
+async function upsertIconImages(db){
+    const fetch96 = "https://assets.thesilphroad.com/img/pokemon/icons/96x96/";  
+    return new Promise((resolve,reject)=>{
+       db.on('error', console.error.bind(console, 'connection error')); 
+        db.once('open', async()=>{
+            const pokemonList =  await getPokemon(); 
+            for(var a = 0; a <= pokemonList.length -1; a++){
+                let idNumber = pokemonList[a].idNumber;                
+                const response = await fetch(`${fetch96}${idNumber}.png`); 
+                //return the buffer for each image
+                const buffer = await response.buffer(); 
+                //return the type from the image
+                const type = await fileType.fromBuffer(buffer); 
+                //convert the buffer to base64
+                const base64String = Buffer.from(buffer).toString('base64');
+                //console.log(base64String);                 
 
-    //return the buffer for each image
+                imageModel.findOneAndUpdate({idNumber: idNumber}, {
+                    idNumber: idNumber, 
+                    iconType: type, 
+                    iconBase64: base64String
+                },{upsert: true}, (err, doc)=>{
+                    if(err) reject(err); 
 
-    //convert the buffer to base64
+                    console.log(`updated pokemon #${idNumber} 96x96 image`); 
+                });
+                      
+            }
+            resolve();
+        });
+    }); 
+  
+}
 
-    //return the type from the image
+async function upsertFullImages(db){
+    return new Promise((resolve,reject)=>{
+        const fetch475 = 'https://db.pokemongohub.net/images/official/full/';
+       db.on('error', console.error.bind(console, 'connection error')); 
+        db.once('open', async()=>{
+            const pokemonList =  await getPokemon(); 
+            for(var a = 0; a <= pokemonList.length -1; a++){
+                let idNumber = idPadding(pokemonList[a].idNumber);                
+                const response = await fetch(`${fetch475}${idNumber}.png`); 
+                //return the buffer for each image
+                const buffer = await response.buffer(); 
+                //return the type from the image
+                const type = await fileType.fromBuffer(buffer); 
+                //convert the buffer to base64
+                const base64String = Buffer.from(buffer).toString('base64');              
 
-    //save file name to the images  96x96 collection as {id}.png
+                imageModel.findOneAndUpdate({idNumber: idNumber}, {
+                    idNumber: idNumber, 
+                    fullType: type, 
+                    fullBase64: base64String
+                },{upsert: true}, (err, doc)=>{
+                    if(err) reject(err); 
 
-//for each pokemon fetch image from https://db.pokemongohub.net/images/official/full/10.png
-    //if the id is less than 100 use "0" + id
-    //if the id is less than 10 use "00"+id  
-
-    //retun the buffer for each image
-    //convert the buffer to base64
-    //retun the file type from the image
-    //save file name to db as {id.png}
-    //save base64 string to the 475x475 collection
+                    console.log(`updated pokemon #${idNumber} 475x475 image`); 
+                });
+                      
+            }
+            resolve();
+        });
+    });  
+}
 
 module.exports = {
-    getPokemon
+    upsertIconImages,
+    upsertFullImages,
+    getPokemon    
 }

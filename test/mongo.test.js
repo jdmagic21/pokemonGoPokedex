@@ -31,10 +31,15 @@ afterAll(async()=>{
     await connection.close();
 });
 
-test('returns pokemon from PokeDex collection',async()=>{
+test('returns data from collections',async()=>{
     const pokeDex = db.collection('pokeDex'); 
     const pokemon = await pokeDex.findOne({}); 
+
+    const images = db.collection('images'); 
+    const image = await images.findOne({}); 
+
     expect(pokemon).not.toBeNull();  
+    expect(image).not.toBeNull(); 
 }); 
 
 }); 

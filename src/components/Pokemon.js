@@ -15,18 +15,19 @@ class Pokemon extends React.Component
             pokemon: {}
         }
     }
-    componentDidMount()
+    async componentDidMount()
     {
-        const id = this.props.match.params.id;
-        fetch(`/pokemon/${id}`).then(res => res.json())
-            .then(pokemonA =>{
-                fetch(`https://pokeapi.co/api/v2/pokemon/${id}`)
-                .then(res => res.json())
-                .then(pokemonB => {                 
-                   const pokemonType = pokemonB.types[pokemonB.types.length-1].type.name; 
-                    this.setState({pokemon: {...pokemonA[0], type: pokemonType}}); 
-                });             
-            });  
+            const id = this.props.match.params.id;
+            var pokemon = await fetch(`/pokemon/${id}`).then(res => res.json());
+            var types = await fetch(`https://pokeapi.co/api/v2/pokemon/${id}`).then(res=>res.json());
+            pokemon.types = types.types; 
+            var images = await fetch (`/pokemon/image/${id}`).then(res=>res.json());
+            pokemon.images = images; 
+
+            this.setState({
+                pokemon: pokemon
+            }); 
+      
     }
     handleChange(event)
     {
@@ -67,20 +68,16 @@ class Pokemon extends React.Component
 
     render()
     {
-        var idStr = this.state.pokemon.idNumber;
-        if (this.state.pokemon.idNumber < 10)
-        {
-            idStr = "00" + this.state.pokemon.idNumber;
-        }
-        else if (this.state.pokemon.idNumber < 100)
-        {
-            idStr = "0" + this.state.pokemon.idNumber;
+        var pokemonImgUrl = ""; 
+        var type = ""; 
+        
+        if(Object.keys(this.state.pokemon).length !== 0){            
+           pokemonImgUrl = `data:${this.state.pokemon.images.fullType.mime || ""};base64,${this.state.pokemon.images.fullBase64 || ""}`;
+            type= this.state.pokemon.types[this.state.pokemon.types.length -1].type.name;          
         }
 
-        const pokemonImgUrl = "https://db.pokemongohub.net/images/official/full/" + idStr + ".png";
-
-        return (
-            <div>
+        return (           
+            <div id="single-pokemon">
                 <nav aria-label="breadcrumb">
                     <ol className="breadcrumb">
                         <li className="breadcrumb-item"><a href="/">Home</a></li>
@@ -90,7 +87,7 @@ class Pokemon extends React.Component
 
 
                 <div className="card">
-                    <img src={pokemonImgUrl} className={`card-img-top type-${this.state.pokemon.type}`} width="200px" alt="Card cap" />
+                    <img src={pokemonImgUrl} className={`card-img-top type-${type}`} width="200px" alt="Card cap" />
                     <div className="card-body">
                         <h4 className="card-title">Update {this.state.pokemon.name}</h4>
                         <div className="card-text">
