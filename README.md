@@ -65,6 +65,8 @@ Reference "Script Definitions" section were needed.
     - [ Integration DataTables](https://www.youtube.com/watch?v=ZCKj0SJRTB8)
 
 ## Other Reading ##
+### Node Specific ###
+- [Base64 encoding with buffer](https://bit.ly/2TKgqPS)
 ### Authentication & Authorization
 - [JWT with Node.js](https://medium.com/better-programming/authentication-and-authorization-using-jwt-with-node-js-4099b2e6ca1f)
 ### Create React App
