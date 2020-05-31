@@ -1,7 +1,6 @@
 import React from 'react';
 import { withRouter } from "react-router-dom";
 import './Pokemon.css';
-
 var $ = require('jquery');
 
 class Pokemon extends React.Component
@@ -12,22 +11,122 @@ class Pokemon extends React.Component
         this.handleSubmit = this.handleSubmit.bind(this);
         this.handleChange = this.handleChange.bind(this);
         this.state = {
-            pokemon: {}
+            pokemon: {},
+        }
+        this.indexedDB = window.indexedDB || window.webkitIndexedDB || 
+        window.mozIndexedDB || window.msIndexedDB;
+        this.IDBTransaction = window.IDBTransaction || window.webkitIDBTransaction;
+    }
+
+    async indexedDBRead(pokemonId){
+        return new Promise((resolve, reject)=>{
+            var request = this.indexedDB.open('pokedex');
+        var db; 
+        request.onsuccess = (evt) =>
+        {             
+            db = request.result;      
+            if(this.IDBTransaction !== undefined){      
+                var transaction = db.transaction("images");
+                var objectStore = transaction.objectStore("images"); 
+                var request2 = objectStore.get(parseInt(pokemonId)); 
+                request2.onsuccess = (evt)=>{
+                    resolve(request2.result); 
+                }; 
+            }       
+        }
+        });        
+    }
+
+    indexedDBCreate(pokemonObj){
+        //this.indexedDbInit();   
+        var request = this.indexedDB.open('pokedex');
+        var db;    
+
+        request.onsuccess = (evt)=>{
+            db = request.result; 
+             // write data to existing db 
+        if(this.IDBTransaction !== undefined){
+            var transaction = db.transaction("images", "readwrite"); 
+            var objectStore = transaction.objectStore("images"); 
+            // add data 
+            var requestAdd = objectStore.add(pokemonObj); 
+
+            requestAdd.onsuccess=function(evt){
+                console.log('added new data'); 
+            }
+        }  
+        }
+       
+    }
+
+    indexedDbInit()
+    {    
+        if (this.indexedDB !== undefined)
+        {
+            var request = this.indexedDB.open('pokedex');
+            request.onerror = (evt) =>
+            {
+                console.log('Database error code: ' + evt.target.errorCode);
+            };
+            request.onsuccess = (evt) =>
+            {
+                this.db = request.result;
+            }
+            request.onupgradeneeded = (evt) =>
+            {
+                var objectStore = evt.currentTarget.result.createObjectStore("images", { keyPath: "pokemonId", autoincrement: false });
+                objectStore.createIndex("iconBase64", "iconBase64", { unique: true });
+                objectStore.createIndex("iconType", "iconType", {unique: false}); 
+                objectStore.createIndex("fullType", "fulltype", {unique:false}); 
+                objectStore.createIndex("fullBase64", "fullBase64", {unique:true});               
+            };            
         }
     }
+
     async componentDidMount()
     {
-            const id = this.props.match.params.id;
-            var pokemon = await fetch(`/pokemon/${id}`).then(res => res.json());
-            var types = await fetch(`https://pokeapi.co/api/v2/pokemon/${id}`).then(res=>res.json());
-            pokemon.types = types.types; 
-            var images = await fetch (`/pokemon/image/${id}`).then(res=>res.json());
-            pokemon.images = images; 
+        this.indexedDbInit();    
 
+        //check if there is a key in IndexDB with the given pokemon id
+        //else if not, grab the image from the database using the /pokemon/image endpoint and add image to indexedDB
+
+        const id = this.props.match.params.id;
+        const pokemonStuff = await this.indexedDBRead(id);    
+        
+        var pokemon = await fetch(`/pokemon/${id}`).then(res => res.json());
+
+        if(pokemon == null){
+            this.setState({
+                pokemon: false
+            }); 
+        }
+        else{
+            var types = await fetch(`https://pokeapi.co/api/v2/pokemon/${id}`).then(res => res.json());
+            pokemon.types = types.types;   
+            var images;
+    
+            if(pokemonStuff === undefined){
+                images = await fetch(`/pokemon/image/${id}`).then(res => res.json());
+                if(images != null){
+                    var indexedDBObj = {
+                        "pokemonId": images.idNumber,      
+                        "iconBase64": images.iconBase64,
+                        "iconType": images.iconType,
+                        "fullType": images.fullType, 
+                        "fullBase64": images.fullBase64          
+                    }
+                    this.indexedDBCreate(indexedDBObj); 
+                }       
+            }
+            else{
+                images = pokemonStuff; 
+            }
+            pokemon.images = images;
+    
             this.setState({
                 pokemon: pokemon
-            }); 
-      
+            });
+        }      
     }
     handleChange(event)
     {
@@ -68,16 +167,22 @@ class Pokemon extends React.Component
 
     render()
     {
-        var pokemonImgUrl = ""; 
-        var type = ""; 
-        
-        if(Object.keys(this.state.pokemon).length !== 0){            
-           pokemonImgUrl = `data:${this.state.pokemon.images.fullType.mime || ""};base64,${this.state.pokemon.images.fullBase64 || ""}`;
-            type= this.state.pokemon.types[this.state.pokemon.types.length -1].type.name;          
+        var pokemonImgUrl = "";
+        var type = "";
+        var html = ""; 
+
+        if (Object.keys(this.state.pokemon).length !== 0)
+        {
+            pokemonImgUrl = `data:${this.state.pokemon.images.fullType.mime || ""};base64,${this.state.pokemon.images.fullBase64 || ""}`;
+            type = this.state.pokemon.types[this.state.pokemon.types.length - 1].type.name;
         }
 
-        return (           
-            <div id="single-pokemon">
+        if(this.state.pokemon === false){
+            html = (<div className="alert alert-danger" role="alert"><p>Pokemon with that ID does not exists</p></div>);
+        }
+        else if(Object.keys(this.state.pokemon).length !== 0){
+            html = (
+                <div id="single-pokemon">
                 <nav aria-label="breadcrumb">
                     <ol className="breadcrumb">
                         <li className="breadcrumb-item"><a href="/">Home</a></li>
@@ -119,17 +224,17 @@ class Pokemon extends React.Component
                                 <button type="submit" className="btn btn-primary float-right">Update</button>
 
                             </form>
-
-
-
                         </div>
                     </div>
                 </div>
             </div>
+            )
+        }
+        return (
+            <div>
+            {html}
+            </div>
         )
     }
-
-
-
 }
 export default withRouter(Pokemon); 

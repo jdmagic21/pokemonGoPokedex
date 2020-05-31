@@ -1,11 +1,9 @@
 import '../css/jquery.datatables.min.css';
 import React from 'react';
-
 const $ = require('jquery'); 
 require('datatables.net-buttons')(window, $); 
 $.DataTable = require('datatables.net-responsive'); 
-//https://www.youtube.com/watch?v=ZCKj0SJRTB8
-//https://stackoverflow.com/questions/16539578/datatables-warning-requested-unknown-parameter-0-from-the-data-source-for-row#33639519
+
 export default class PokemonTable extends React.Component {
     componentDidMount() {
       this.$el = $(this.el);
@@ -40,14 +38,13 @@ export default class PokemonTable extends React.Component {
                   {data: 'candyCount', title: "Candy Count"},
                   {data: 'evolutionCost', title: "Evolution Cost"},
                   {data: 'evolvesInto', title: "Evolves Into"},
-                  {data: 'candyRemaining', title: "Candy Remaining"}
-                  
+                  {data: 'candyRemaining', title: "Candy Remaining"}                  
               ]
           }
       )
     }
     componentWillUnmount() { 
-        this.$el.DataTable().destroy();
+        //this.$el.DataTable().destroy();
     }   
     
     render() {       
