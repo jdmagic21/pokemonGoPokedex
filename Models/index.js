@@ -12,6 +12,12 @@ else{
     collection = process.env.collection; 
 }
 
+var friendSchema = new mongoose.Schema({
+    name: String,
+    status: String,
+    daysNextStatus: Number
+});
+
 var pokeDexSchema = new mongoose.Schema({
     idNumber: Number,
     name: String, 
@@ -37,8 +43,10 @@ var imagesSchema = new mongoose.Schema({
 
 var images = mongoose.model("images", imagesSchema); 
 var pokeDex = mongoose.model(collection, pokeDexSchema); 
+var friends = mongoose.model("friends", friendSchema); 
 
 module.exports = {
     pokeDex: pokeDex,
-    images: images
+    images: images,
+    friends: friends
 }

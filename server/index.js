@@ -49,7 +49,6 @@ app.post('/authorize', handlers.login);
 app.get('/', middleware.checkToken, handlers.index);
 app.use(express.static(path.join(__dirname, '../build')));
 
-
 app.get('/pokemon', async (req, res) =>
 {
     const filter={
@@ -159,6 +158,67 @@ app.post('/pokemon/update', async(req, res) =>
         res.send(`Pokemon could not be updated`);
     }
 });
+
+app.get('/friends', async(req, res)=>{
+    const friends = mongoose.model('friends'); 
+    const filter = {
+        __v: 0
+    }
+    const all = await friends.find({}, filter).exec(); 
+    if(all.length > 0){
+        res.json(all); 
+    }
+    else{
+        res.status(500).json(null); 
+    }    
+}); 
+app.get('/friends/:id', async(req, res)=>{
+    const friends = mongoose.model('friends'); 
+    const singleFriend = await friends.find({name: req.params.name}).exec(); 
+    if(singleFriend > 0){
+        res.json(singleFriend[0]); 
+    }
+    else{
+        return res.status(500).json(null); 
+    }
+})
+
+app.get('/friends/add', async(req, res)=>{
+    const friends = mongoose.model('friends'); 
+    var friend = new friends({
+        name: res.body.name, 
+        status: res.body.status,
+        daysNextStatus: res.body.daysNextStatus
+    });
+    await friend.save(); 
+    res.status(200).json(friend);
+    
+}); 
+app.get('/friends/update', async(req,res)=>{
+    const friends = mongoose.model('friends'); 
+    var friend = await friends.findOne({name: req.body.name}); 
+    if(friend != null){
+        friend.name = req.body.name; 
+        friend.status = req.body.status;
+        friend.daysNextStatus = req.body.daysNextStatus;
+        await friend.save(); 
+        res.status(204).json(friend); 
+    }
+    else{
+        res.status(500).json(null); 
+    } 
+});
+
+app.get('/friends/delete', async(req,res)=>{
+    const friends = mongoose.model('friends'); 
+    const deleteFriend = await friends.deleteOne({name: res.body.name}); 
+    if(deleteFriend === 1){
+        res.status(204); 
+    }
+    else{
+        res.status(500); 
+    }   
+}); 
 
 app.get('*', middleware.checkToken, handlers.index);
 
