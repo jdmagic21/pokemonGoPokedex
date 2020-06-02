@@ -6,6 +6,7 @@ var HandlerGenerator = require('./handleGenerator').HandlerGenerator;
 var handlers = new HandlerGenerator(); 
 let middleware = require('./middleware');
 var cookieParser = require('cookie-parser');  
+var moment = require('moment'); 
 
 const settingsPath = path.resolve(__dirname, '../settings.json'); 
 var mongoConnectionString= ""
@@ -192,7 +193,8 @@ app.post('/friends/add', async(req, res)=>{
         {
             name: req.body.name, 
             status: req.body.status,
-            daysNextStatus: req.body.daysNextStatus
+            daysNextStatus: req.body.daysNextStatus,
+            dateUpdated: moment().format()
         }, {upsert: true}, (err, doc)=>{
             if(err) return res.send(500, {error: err}); 
             return res.status(200).send("successfully saved"); 

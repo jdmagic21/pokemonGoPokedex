@@ -15,7 +15,8 @@ else{
 var friendSchema = new mongoose.Schema({
     name: String,
     status: String,
-    daysNextStatus: Number
+    daysNextStatus: Number,
+    dateUpdated: Date
 });
 
 var pokeDexSchema = new mongoose.Schema({
