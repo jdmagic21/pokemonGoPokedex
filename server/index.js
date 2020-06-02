@@ -183,16 +183,20 @@ app.get('/friends/:id', async(req, res)=>{
     }
 })
 
-app.get('/friends/add', async(req, res)=>{
+app.post('/friends/add', async(req, res)=>{
+    console.log(req.body); 
     const friends = mongoose.model('friends'); 
-    var friend = new friends({
-        name: res.body.name, 
-        status: res.body.status,
-        daysNextStatus: res.body.daysNextStatus
-    });
-    await friend.save(); 
-    res.status(200).json(friend);
-    
+
+    //find a friend by a name, if not found upsert
+    friends.findOneAndUpdate({name: req.body.name}, 
+        {
+            name: req.body.name, 
+            status: req.body.status,
+            daysNextStatus: req.body.daysNextStatus
+        }, {upsert: true}, (err, doc)=>{
+            if(err) return res.send(500, {error: err}); 
+            return res.status(200).send("successfully saved"); 
+        });    
 }); 
 app.get('/friends/update', async(req,res)=>{
     const friends = mongoose.model('friends'); 

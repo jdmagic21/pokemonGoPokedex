@@ -39,7 +39,7 @@ class App extends React.Component
                   <Pokemon />
                 </div>
               </Route>
-              <Route path="/friend/add">
+              <Route path="/friends/add">
               <div className="row justify-content-center">
                   <FriendsAdd />
                 </div>

@@ -6,7 +6,9 @@ class FriendsAdd extends React.Component{
     constructor(){
         super(); 
         this.state = {
-            friend: {}
+            friend: {
+                status: "good"
+            }
         }
         this.handleSubmit = this.handleSubmit.bind(this); 
         this.handleChange = this.handleChange.bind(this); 
@@ -22,7 +24,7 @@ class FriendsAdd extends React.Component{
     }
     handleSubmit(event){
         $.ajax({
-            url: '/friend/add', 
+            url: '/friends/add', 
             method: 'POST', 
             data:{
                 name: this.state.friend.name, 
@@ -31,6 +33,9 @@ class FriendsAdd extends React.Component{
             },
             success: ()=>{
                 window.location.reload(false); 
+            },
+            error: (err)=>{
+                console.log(err)
             }
 
         });
@@ -48,7 +53,7 @@ class FriendsAdd extends React.Component{
                 </div>
                 <div className="form-group">
                 <label htmlFor="status">Status</label>
-                <select htmlFor="status" id="status" name="status" onChange={this.handleChange}>
+                <select htmlFor="status" id="status" name="status" onChange={this.handleChange} className="form-control">
                     <option value="good">Good</option>
                     <option value="great">Great</option>
                     <option value="ultra">Ultra</option>
@@ -57,8 +62,10 @@ class FriendsAdd extends React.Component{
                 </div>
                 <div className="form-group">
                     <label htmlFor="daysNextStatus">Days To Next Status</label>
-                    <input type="number" htmlFor="daysNextStatus" id="daysNextStatus" name="daysNextStatus" onInput={this.handleChange}/>
+                    <input type="number" htmlFor="daysNextStatus" id="daysNextStatus" name="daysNextStatus" className="form-control" onInput={this.handleChange}/>
                 </div>
+
+   <button type="submit" className="btn btn-primary float-right">Add</button>
             </form>
             </div>
         )
