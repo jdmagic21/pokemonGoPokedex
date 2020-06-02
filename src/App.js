@@ -4,6 +4,7 @@ import PokemonTable from './components/PokemonTable';
 import Pokemon from './components/Pokemon';
 import Login from './components/Login';
 import FriendsAdd from './components/FriendsAdd'; 
+import FriendsTable from './components/FriendsTable'; 
 
 import
 {
@@ -44,6 +45,18 @@ class App extends React.Component
                   <FriendsAdd />
                 </div>
               </Route>
+
+              <Route path="/friends/edit/:name">
+                <div className="row justify-content-center">
+                  
+                </div>
+              </Route>
+
+              <Route path="/friends">                
+                  <FriendsTable />   
+              </Route>
+
+              
 
               <Route path="/">
                 <PokemonTable />
