@@ -5,6 +5,7 @@ import Pokemon from './components/Pokemon';
 import Login from './components/Login';
 import FriendsAdd from './components/FriendsAdd'; 
 import FriendsTable from './components/FriendsTable'; 
+import FriendsEdit from './components/FriendsEdit'; 
 
 import
 {
@@ -48,7 +49,7 @@ class App extends React.Component
 
               <Route path="/friends/edit/:name">
                 <div className="row justify-content-center">
-                  
+                  <FriendsEdit /> 
                 </div>
               </Route>
 

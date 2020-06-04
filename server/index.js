@@ -173,10 +173,10 @@ app.get('/friends', async(req, res)=>{
         res.status(500).json(null); 
     }    
 }); 
-app.get('/friends/:id', async(req, res)=>{
-    const friends = mongoose.model('friends'); 
+app.get('/friends/:name', async(req, res)=>{
+    const friends = mongoose.model('friends');
     const singleFriend = await friends.find({name: req.params.name}).exec(); 
-    if(singleFriend > 0){
+    if(singleFriend.length > 0){
         res.json(singleFriend[0]); 
     }
     else{
@@ -200,13 +200,14 @@ app.post('/friends/add', async(req, res)=>{
             return res.status(200).send("successfully saved"); 
         });    
 }); 
-app.get('/friends/update', async(req,res)=>{
+app.post('/friends/update', async(req,res)=>{
     const friends = mongoose.model('friends'); 
-    var friend = await friends.findOne({name: req.body.name}); 
+    var friend = await friends.findOne({name: req.body.oldName}); 
     if(friend != null){
         friend.name = req.body.name; 
         friend.status = req.body.status;
         friend.daysNextStatus = req.body.daysNextStatus;
+        friend.dateUpdated = moment().format();
         await friend.save(); 
         res.status(204).json(friend); 
     }
@@ -215,14 +216,15 @@ app.get('/friends/update', async(req,res)=>{
     } 
 });
 
-app.get('/friends/delete', async(req,res)=>{
+app.post('/friends/delete', async(req,res)=>{
     const friends = mongoose.model('friends'); 
-    const deleteFriend = await friends.deleteOne({name: res.body.name}); 
-    if(deleteFriend === 1){
-        res.status(204); 
+    const deleteFriend = await friends.deleteOne({name: req.body.name}); 
+    console.log(deleteFriend); 
+    if(deleteFriend.ok === 1){
+        res.status(204).send('success'); 
     }
     else{
-        res.status(500); 
+        res.status(500).send('failure'); 
     }   
 }); 
 

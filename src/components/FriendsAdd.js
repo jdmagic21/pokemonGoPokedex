@@ -45,7 +45,14 @@ class FriendsAdd extends React.Component{
     //on submit send the state to the friends api endpoint
     render(){
         return(
-            <div id="single-friend">
+            <div id="single-friend" class="col-md-4">
+                <nav aria-label="breadcrumb">
+                    <ol className="breadcrumb">
+                        <li className="breadcrumb-item"><a href="/">Home</a></li>
+                        <li className="breadcrumb-item"><a href="/friends">All Friends</a></li>
+                        <li className="breadcrumb-item active" aria-current="page">Add Friend</li>
+                    </ol>
+                </nav>
             <form onSubmit={this.handleSubmit}>
                 <div className="form-group">
                 <label htmlFor="name">Name</label>
