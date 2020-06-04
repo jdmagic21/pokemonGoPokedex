@@ -41,6 +41,7 @@ class App extends React.Component
                   <Pokemon />
                 </div>
               </Route>
+            
               <Route path="/friends/add">
               <div className="row justify-content-center">
                   <FriendsAdd />
@@ -52,12 +53,11 @@ class App extends React.Component
                   <FriendsEdit /> 
                 </div>
               </Route>
-
               <Route path="/friends">                
                   <FriendsTable />   
-              </Route>
+              </Route>         
 
-              
+                 
 
               <Route path="/">
                 <PokemonTable />

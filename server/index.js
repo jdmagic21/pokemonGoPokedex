@@ -88,7 +88,6 @@ app.get('/pokemon/image/:id', async(req, res)=>{
     const images = mongoose.model('images'); 
     const singlePokeImage = await images.find({idNumber: req.params.id}).exec(); 
     if(singlePokeImage.length > 0){
-        console.log('trying to send')
         return res.json(singlePokeImage[0]);
     }
     else{
@@ -173,19 +172,8 @@ app.get('/friends/all', async(req, res)=>{
         res.status(500).json(null); 
     }    
 }); 
-app.get('/friends/:name', async(req, res)=>{
-    const friends = mongoose.model('friends');
-    const singleFriend = await friends.find({name: req.params.name}).exec(); 
-    if(singleFriend.length > 0){
-        res.json(singleFriend[0]); 
-    }
-    else{
-        return res.status(500).json(null); 
-    }
-})
 
-app.post('/friends/addNew', async(req, res)=>{
-    console.log(req.body); 
+app.post('/friends/create', async(req, res)=>{
     const friends = mongoose.model('friends'); 
 
     //find a friend by a name, if not found upsert
@@ -219,7 +207,6 @@ app.post('/friends/update', async(req,res)=>{
 app.post('/friends/delete', async(req,res)=>{
     const friends = mongoose.model('friends'); 
     const deleteFriend = await friends.deleteOne({name: req.body.name}); 
-    console.log(deleteFriend); 
     if(deleteFriend.ok === 1){
         res.status(204).send('success'); 
     }
@@ -227,6 +214,18 @@ app.post('/friends/delete', async(req,res)=>{
         res.status(500).send('failure'); 
     }   
 }); 
+app.get('/friends/single/:name', async(req, res)=>{
+    const friends = mongoose.model('friends');
+    const singleFriend = await friends.find({name: req.params.name}).exec(); 
+    if(singleFriend.length > 0){
+        res.json(singleFriend[0]); 
+    }
+    else{
+        return res.status(500).json(null); 
+    }
+
+})
+
 
 app.get('*', middleware.checkToken, handlers.index);
 

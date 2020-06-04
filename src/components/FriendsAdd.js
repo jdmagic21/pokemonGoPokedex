@@ -24,7 +24,7 @@ class FriendsAdd extends React.Component{
     }
     handleSubmit(event){
         $.ajax({
-            url: '/friends/addNew', 
+            url: '/friends/create', 
             method: 'POST', 
             data:{
                 name: this.state.friend.name, 
@@ -32,7 +32,8 @@ class FriendsAdd extends React.Component{
                 daysNextStatus: this.state.friend.daysNextStatus
             },
             success: ()=>{
-                window.location.reload(false); 
+
+                window.location.href=`/friends/edit/${this.state.friend.name}`; 
             },
             error: (err)=>{
                 console.log(err)
