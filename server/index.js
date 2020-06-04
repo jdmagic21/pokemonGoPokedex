@@ -184,7 +184,7 @@ app.get('/friends/:name', async(req, res)=>{
     }
 })
 
-app.post('/friends/add', async(req, res)=>{
+app.post('/friends/addNew', async(req, res)=>{
     console.log(req.body); 
     const friends = mongoose.model('friends'); 
 

@@ -24,7 +24,7 @@ class FriendsAdd extends React.Component{
     }
     handleSubmit(event){
         $.ajax({
-            url: '/friends/add', 
+            url: '/friends/addNew', 
             method: 'POST', 
             data:{
                 name: this.state.friend.name, 
