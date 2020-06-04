@@ -28,7 +28,6 @@ class FriendsEdit extends React.Component{
                 name: this.state.friend.name
             },
             success: ()=>{
-                console.log('success'); 
                 window.location.href="/friends/"; 
             },
             error: (err)=>{
@@ -56,7 +55,7 @@ class FriendsEdit extends React.Component{
     }
     async componentDidMount(){
         const name = this.props.match.params.name;         
-        var friend = await fetch(`/friends/${name}`).then(res => res.json());
+        var friend = await fetch(`/friends/single/${name}`).then(res => res.json());
         friend.oldName = friend.name; 
         this.setState({
             friend: friend
