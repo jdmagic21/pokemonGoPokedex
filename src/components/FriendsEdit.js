@@ -61,7 +61,6 @@ class FriendsEdit extends React.Component{
         this.setState({
             friend: friend
         }); 
-        console.log(this.state.friend); 
     }
     render(){
         return(
