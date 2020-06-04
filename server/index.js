@@ -160,7 +160,7 @@ app.post('/pokemon/update', async(req, res) =>
     }
 });
 
-app.get('/friends', async(req, res)=>{
+app.get('/friends/all', async(req, res)=>{
     const friends = mongoose.model('friends'); 
     const filter = {
         __v: 0
