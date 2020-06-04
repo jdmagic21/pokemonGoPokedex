@@ -30,7 +30,7 @@ export default class FriendsTable extends React.Component {
             }],
             aaSorting: [],
             pageLength: 50,
-            ajax: {url:`/friends`, dataSrc: "" },
+            ajax: {url:`/friends/all`, dataSrc: "" },
             columns:[
                 {data: 'name', title: "Name", render: (data, type, full, meta)=>{
                     return "<a href=/friends/edit/"+full.name+">"+data+"</a>"
