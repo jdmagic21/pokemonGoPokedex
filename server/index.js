@@ -6,6 +6,7 @@ var HandlerGenerator = require('./handleGenerator').HandlerGenerator;
 var handlers = new HandlerGenerator(); 
 let middleware = require('./middleware');
 var cookieParser = require('cookie-parser');  
+var moment = require('moment'); 
 
 const settingsPath = path.resolve(__dirname, '../settings.json'); 
 var mongoConnectionString= ""
@@ -48,7 +49,6 @@ app.post('/authorize', handlers.login);
 
 app.get('/', middleware.checkToken, handlers.index);
 app.use(express.static(path.join(__dirname, '../build')));
-
 
 app.get('/pokemon', async (req, res) =>
 {
@@ -159,6 +159,74 @@ app.post('/pokemon/update', async(req, res) =>
         res.send(`Pokemon could not be updated`);
     }
 });
+
+app.get('/friends', async(req, res)=>{
+    const friends = mongoose.model('friends'); 
+    const filter = {
+        __v: 0
+    }
+    const all = await friends.find({}, filter).exec(); 
+    if(all.length > 0){
+        res.json(all); 
+    }
+    else{
+        res.status(500).json(null); 
+    }    
+}); 
+app.get('/friends/:name', async(req, res)=>{
+    const friends = mongoose.model('friends');
+    const singleFriend = await friends.find({name: req.params.name}).exec(); 
+    if(singleFriend.length > 0){
+        res.json(singleFriend[0]); 
+    }
+    else{
+        return res.status(500).json(null); 
+    }
+})
+
+app.post('/friends/add', async(req, res)=>{
+    console.log(req.body); 
+    const friends = mongoose.model('friends'); 
+
+    //find a friend by a name, if not found upsert
+    friends.findOneAndUpdate({name: req.body.name}, 
+        {
+            name: req.body.name, 
+            status: req.body.status,
+            daysNextStatus: req.body.daysNextStatus,
+            dateUpdated: moment().format()
+        }, {upsert: true}, (err, doc)=>{
+            if(err) return res.send(500, {error: err}); 
+            return res.status(200).send("successfully saved"); 
+        });    
+}); 
+app.post('/friends/update', async(req,res)=>{
+    const friends = mongoose.model('friends'); 
+    var friend = await friends.findOne({name: req.body.oldName}); 
+    if(friend != null){
+        friend.name = req.body.name; 
+        friend.status = req.body.status;
+        friend.daysNextStatus = req.body.daysNextStatus;
+        friend.dateUpdated = moment().format();
+        await friend.save(); 
+        res.status(204).json(friend); 
+    }
+    else{
+        res.status(500).json(null); 
+    } 
+});
+
+app.post('/friends/delete', async(req,res)=>{
+    const friends = mongoose.model('friends'); 
+    const deleteFriend = await friends.deleteOne({name: req.body.name}); 
+    console.log(deleteFriend); 
+    if(deleteFriend.ok === 1){
+        res.status(204).send('success'); 
+    }
+    else{
+        res.status(500).send('failure'); 
+    }   
+}); 
 
 app.get('*', middleware.checkToken, handlers.index);
 

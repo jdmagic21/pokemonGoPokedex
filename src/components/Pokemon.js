@@ -156,7 +156,7 @@ class Pokemon extends React.Component
                 threeStars: this.state.pokemon.threeStars,
                 needed: this.state.pokemon.needed
             },
-            success: (data) =>
+            success: () =>
             {
                 window.location.reload(false);
             }
