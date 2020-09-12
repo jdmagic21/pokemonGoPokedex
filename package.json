@@ -23,7 +23,7 @@
     "moment": "2.18.1",
     "mongodb": "^3.5.7",
     "mongoose": "^5.9.14",
-    "node-fetch": "^2.6.0",
+    "node-fetch": "^2.6.1",
     "popper.js": "^1.16.1",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
